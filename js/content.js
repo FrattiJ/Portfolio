@@ -10,7 +10,7 @@
 const SITE = {
   /* ---------- Identity ---------- */
   name: "Jacob Fratti",
-  title: "Pricing and Analytics",
+  title: "Pricing and analytics",
   location: "Orlando, FL",
   tagline: "I build the automation that replaces manual pricing work, and I measure what it saves.",
   intro:
@@ -24,12 +24,20 @@ const SITE = {
     { label: "GitHub", url: "https://github.com/FrattiJ" },
   ],
 
-  /* ---------- The numbers under the intro ---------- */
+  /* ---------- The chart under the intro: one real before/after, drawn to scale ---------- */
+  proof: {
+    title: "Chain cost file, one cycle",
+    note: "400 SKUs reconciled against the pricing master. Bars drawn to scale.",
+    before: { label: "By hand", minutes: 360, text: "6 hours" },
+    after: { label: "Alteryx workflow", minutes: 1, text: "under 1 minute" },
+  },
+
+  /* ---------- The figures under the chart ---------- */
   highlights: [
-    { value: "6 yrs", label: "Beverage alcohol distribution" },
-    { value: "~150", label: "Accounts priced, across 12 supplier portfolios" },
-    { value: "6 hrs to 1 min", label: "Chain cost file, after automation" },
-    { value: "1,800", label: "SKUs validated per supplier price book" },
+    { value: "6 years", label: "in beverage alcohol distribution" },
+    { value: "~150", label: "accounts priced" },
+    { value: "12", label: "supplier portfolios" },
+    { value: "1,800", label: "SKUs checked per supplier price book" },
   ],
 
   /* ---------- About ---------- */

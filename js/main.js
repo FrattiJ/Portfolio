@@ -26,7 +26,7 @@
     isExternal(url) ? { href: url, target: "_blank", rel: "noopener noreferrer" } : { href: url };
 
   const STATUS_LABEL = { shipped: "In use", active: "In progress", planned: "Planned" };
-  const statusPill = (s) => h("span", { class: `pill status-${s}` }, STATUS_LABEL[s] || s);
+  const statusPill = (s) => h("span", { class: `status status-${s}` }, STATUS_LABEL[s] || s);
   const visibleLinks = (links) => (links || []).filter((l) => has(l.url));
 
   /* ---------- Theme ---------- */
@@ -48,7 +48,7 @@
   function renderHero() {
     document.title = SITE.title ? `${SITE.name} | ${SITE.title}` : SITE.name;
     $("#brand").textContent = SITE.name;
-    $("#heroEyebrow").textContent = [SITE.title, SITE.location].filter(has).join("  /  ");
+    $("#heroEyebrow").textContent = [SITE.title, SITE.location].filter(has).join(", ");
     $("#heroName").textContent = SITE.name;
     $("#heroTagline").textContent = SITE.tagline;
     $("#heroIntro").textContent = SITE.intro;
@@ -62,10 +62,38 @@
       ].filter(Boolean)
     );
 
+    renderProof();
     $("#heroStats").append(
       ...(SITE.highlights || []).map((s) =>
         h("div", {}, h("dt", {}, s.label), h("dd", {}, s.value))
       )
+    );
+  }
+
+  /* ---------- Proof: one before/after, drawn to scale ---------- */
+  function renderProof() {
+    const p = SITE.proof;
+    const fig = $("#proof");
+    if (!p) {
+      fig.remove();
+      return;
+    }
+    const max = Math.max(p.before.minutes, p.after.minutes);
+    const row = (kind, x) => {
+      const bar = h("div", { class: `bar ${kind}` });
+      bar.style.setProperty("--w", `${(x.minutes / max) * 100}%`);
+      return h(
+        "div",
+        { class: `bar-row ${kind}` },
+        h("span", { class: "bar-label" }, x.label),
+        h("div", { class: "bar-track", role: "img", "aria-label": `${x.label}: ${x.text}` }, bar),
+        h("span", { class: "bar-val" }, x.text)
+      );
+    };
+    fig.append(
+      h("figcaption", {}, h("span", { class: "proof-title" }, p.title), h("span", { class: "proof-note" }, p.note)),
+      row("before", p.before),
+      row("after", p.after)
     );
   }
 
@@ -80,7 +108,7 @@
         ? h(
             "aside",
             { class: "goals" },
-            h("h3", { class: "mono" }, g.heading || "What I am looking for"),
+            h("h3", {}, g.heading || "What I am looking for"),
             (g.paragraphs || []).map((p) => h("p", {}, p)),
             (g.points || []).length ? h("ul", {}, g.points.map((p) => h("li", {}, p))) : null
           )
@@ -95,14 +123,14 @@
     return h(
       "div",
       { class: "timeline" },
-      title ? h("h3", { class: "mono" }, title) : null,
+      title ? h("h3", { class: "sub" }, title) : null,
       items.map((x) =>
         h(
           "article",
           {},
           h(
             "div",
-            { class: "when mono" },
+            { class: "when" },
             [x.start, x.end].filter(has).filter((v, i, a) => a.indexOf(v) === i).join(" - ")
           ),
           h(
@@ -133,9 +161,9 @@
         h(
           "div",
           { class: "project-group" },
-          h("h3", { class: "sub mono" }, group.title),
+          h("h3", { class: "sub" }, group.title),
           has(group.note) ? h("p", { class: "group-note" }, group.note) : null,
-          h("div", { class: "grid projects" }, items.map(projectCard))
+          h("div", { class: "entries" }, items.map(projectCard))
         )
       );
     }
@@ -143,16 +171,20 @@
 
   function projectCard(p) {
     return h(
-      "button",
-      { class: "card", onclick: () => openProject(p), "aria-haspopup": "dialog" },
+      "article",
+      { class: "entry" },
+      h("h3", {}, p.title),
+      h("div", { class: "entry-meta" }, h("span", {}, p.year), statusPill(p.status)),
+      h("p", {}, p.summary),
       h(
         "div",
-        { class: "card-body" },
-        h("div", { class: "card-meta mono" }, h("span", {}, p.year), statusPill(p.status)),
-        h("h3", {}, p.title),
-        h("p", {}, p.summary),
-        (p.tags || []).length ? h("ul", { class: "tags small" }, p.tags.map((t) => h("li", { class: "mono" }, t))) : null,
-        h("div", { class: "card-foot" }, h("span", { class: "more mono" }, "Read more →"))
+        { class: "entry-foot" },
+        (p.tags || []).length ? h("ul", { class: "tools" }, p.tags.map((x) => h("li", {}, x))) : h("span"),
+        h(
+          "button",
+          { class: "btn", type: "button", onclick: () => openProject(p), "aria-haspopup": "dialog" },
+          "Read how it works"
+        )
       )
     );
   }
@@ -162,11 +194,11 @@
     const links = visibleLinks(p.links);
     body.replaceChildren(
       ...[
-        h("div", { class: "card-meta mono" }, h("span", {}, p.year), statusPill(p.status)),
+        h("div", { class: "entry-meta" }, h("span", {}, p.year), statusPill(p.status)),
         h("h2", { id: "modalTitle" }, p.title),
         h("p", { class: "lede" }, p.summary),
         has(p.image) ? h("img", { class: "modal-img", src: p.image, alt: p.title }) : null,
-        (p.tags || []).length ? h("ul", { class: "tags" }, p.tags.map((t) => h("li", { class: "mono" }, t))) : null,
+        (p.tags || []).length ? h("ul", { class: "tools" }, p.tags.map((x) => h("li", {}, x))) : null,
         (p.process || []).length
           ? h("ol", { class: "process" }, p.process.map((s) => h("li", {}, h("h4", {}, s.title), h("p", {}, s.text))))
           : null,
@@ -199,16 +231,15 @@
   /* ---------- Skills and education ---------- */
   function renderSkills() {
     $("#skillsBody").append(
-      ...Object.entries(SITE.skills || {}).map(([group, items]) =>
-        h(
-          "div",
-          {},
-          h("h3", { class: "mono" }, group),
-          h("ul", { class: "tags" }, items.map((s) => h("li", { class: "mono" }, s)))
+      h(
+        "dl",
+        { class: "skills" },
+        Object.entries(SITE.skills || {}).map(([group, items]) =>
+          h("div", {}, h("dt", {}, group), h("dd", {}, items.join(", ")))
         )
       )
     );
-    const t = timeline("Education", (SITE.resume || {}).education);
+    const t = timeline("", (SITE.resume || {}).education);
     if (t) $("#educationBody").append(t);
   }
 
