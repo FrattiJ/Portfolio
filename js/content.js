@@ -49,13 +49,18 @@ const SITE = {
 
   /* ---------- Career goals (shown beside About) ---------- */
   goals: {
-    heading: "What I am looking for",
-    // TODO: draft. Replace with your own career goals summary.
+    heading: "Where I am headed",
     paragraphs: [
-      "Analyst roles in pricing, revenue management and cost analysis, in the Orlando area. I want to " +
-        "own pricing as a discipline and build the automation behind it.",
+      "I am a pricing person who automates his own work. Six years of industry knowledge plus the " +
+        "ability to build the tools behind the numbers is the combination I want to keep building on.",
+      "Long term, I want to own pricing as a discipline: senior pricing analyst, then pricing manager, " +
+        "then leading a pricing or revenue management function.",
     ],
-    points: [],
+    points: [
+      "Pricing, cost and revenue analytics",
+      "Most interested in defense and aerospace contract pricing, hospitality and travel revenue management, and healthcare",
+      "Based in Orlando",
+    ],
   },
 
   /* ---------- Projects ----------
@@ -225,7 +230,7 @@ const SITE = {
   skills: {
     "Pricing and analysis": ["Product costing", "Price reconciliation", "Variance analysis", "KPI reporting", "Demand forecasting"],
     "Data and BI": ["SQL", "Snowflake", "Alteryx Designer", "Excel (advanced)", "Power BI"],
-    Programming: ["Python", "JavaScript", "TypeScript"],
+    Programming: ["Python", "JavaScript"],
     Systems: ["Salesforce", "Proof CRM", "Git"],
   },
 
