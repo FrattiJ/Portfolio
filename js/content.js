@@ -19,11 +19,11 @@ const SITE = {
   /* ---------- Identity ---------- */
   name: "FrattiJ",
   realName: "Jacob Fratti",
-  tagline: "Pricing analyst by day. I build the automation behind the numbers, and a few apps on the side.",
+  tagline: "Pricing analyst by day. I build the tools behind the numbers at work, and small apps for fun at home.",
   intro:
     "Six years in beverage alcohol distribution, now a Pricing Specialist at Reyes Beverage Group, " +
-    "finishing an MBA in Business Analytics at UCF. I replace manual pricing work with Alteryx, SQL " +
-    "and Snowflake at work, and ship web apps in Next.js and Supabase outside it.",
+    "finishing an MBA in Business Analytics at UCF. At work I built the Python and Snowflake " +
+    "tool our pricing team runs every month. Outside work I build apps in Next.js and Supabase for fun.",
   location: "Orlando, FL",
   availability: "MBA, Business Analytics, August 2027",
 
@@ -48,8 +48,8 @@ const SITE = {
         "Walmart and Target stores. In March 2026 I moved into pricing, where I own costing and pricing " +
         "models for about 150 accounts across 12 supplier portfolios. The part I enjoy most is taking a " +
         "process that eats a day every cycle and turning it into one click.",
-      "Code started with the UCF Full Stack boot camp in 2024 and stuck. Now I build the tools I " +
-        "actually want to use: a backlog and workout tracker, a private newsletter for my family, and a " +
+      "Code started with the UCF Full Stack boot camp in 2024 and stuck. Now I build things for fun, " +
+        "usually tools I want for myself: a backlog and workout tracker, a private newsletter for my family, and a " +
         "character builder for the tabletop games I run. Away from the keyboard I am working through a " +
         "structured drawing curriculum.",
     ],
@@ -68,6 +68,36 @@ const SITE = {
      image: optional path like "assets/projects/my-thing.png"
   */
   projects: [
+    {
+      id: "pricing-tool",
+      title: "Pricing Tool",
+      category: "work",
+      status: "shipped",
+      year: "2026",
+      summary:
+        "A Python desktop app that runs the pricing team's monthly processes: it pulls the data from Snowflake, validates it, and builds the Excel files the team works from.",
+      tags: ["Python", "SQL", "Snowflake", "PyInstaller", "Excel"],
+      links: [],
+      image: "",
+      process: [
+        {
+          title: "Problem",
+          text: "The team's monthly pricing work (pricing runs, deal sheets, validation) was repetitive spreadsheet work done by hand every cycle.",
+        },
+        {
+          title: "Build",
+          text: "A Python app that runs the Snowflake queries, checks the results, and writes finished Excel output. Packaged with PyInstaller so teammates run it without installing Python.",
+        },
+        {
+          title: "Shipping it",
+          text: "Distributed through a shared folder, so everyone on the team gets each new version automatically.",
+        },
+        {
+          title: "The constraint",
+          text: "Data governance prohibits direct system writes, so the tool automates everything up to the controlled submission step and stops there. The code is internal and not public.",
+        },
+      ],
+    },
     {
       id: "hobbylog",
       title: "Hobbylog",
@@ -169,32 +199,6 @@ const SITE = {
       ],
     },
     {
-      id: "pricing-automation",
-      title: "Pricing Automation at Reyes",
-      category: "other",
-      status: "shipped",
-      year: "2026",
-      summary:
-        "A six-hour, 400-SKU price reconciliation turned into a one-minute run, and a multi-week supplier price book cycle cut to about eight hours.",
-      tags: ["Alteryx", "SQL", "Snowflake", "Excel"],
-      links: [],
-      image: "",
-      process: [
-        {
-          title: "Reconciliation",
-          text: "Extracts the pricing master, compares it against customer price files, surfaces every variance and outputs a corrected cost file for chain submission. Six hours of manual work across 400 SKUs became a single-click run of under a minute.",
-        },
-        {
-          title: "Price book validation",
-          text: "Reconciles 1,800-SKU supplier price books against internal records and generates the roughly 150 system upload forms each cycle needs. A multi-week process now takes about eight hours, with no transcription errors.",
-        },
-        {
-          title: "The constraint",
-          text: "Data governance prohibits direct system writes, so both are automated right up to the controlled submission boundary and stop there. The code is internal and not public.",
-        },
-      ],
-    },
-    {
       id: "drawing-curriculum",
       title: "Learning to Draw, Properly",
       category: "art",
@@ -227,7 +231,7 @@ const SITE = {
   */
   roadmap: [
     { column: "now", title: "MBA, Business Analytics", note: "Evening classes at UCF, graduating August 2027." },
-    { column: "now", title: "Pricing automation", note: "Logging hours and errors saved by every tool that ships." },
+    { column: "now", title: "Pricing Tool", note: "Logging the hours and errors it saves each cycle." },
     { column: "now", title: "Drawing fundamentals", note: "Phase 1 of the curriculum, through February 2027." },
     { column: "next", title: "First YouTube upload", note: "Jurassic Park, Random Island: Part 1. Everything but the recording is done." },
     { column: "next", title: "Supply chain network redesign write-up", note: "An MBA case: a distribution network rebuilt around a disruption, profitable over 30 simulated days." },

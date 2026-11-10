@@ -26,7 +26,7 @@
     isExternal(url) ? { href: url, target: "_blank", rel: "noopener noreferrer" } : { href: url };
 
   const STATUS_LABEL = { shipped: "Shipped", active: "In progress", planned: "Planned" };
-  const CATEGORY_LABEL = { code: "Code", video: "Video", art: "Art", other: "Other" };
+  const CATEGORY_LABEL = { work: "Work tool", code: "Hobby code", video: "Video", art: "Art", other: "Other" };
 
   // Deterministic gradient for placeholder tiles, so each card looks distinct.
   function hue(str) {
