@@ -4,41 +4,35 @@
  * ============================================================
  *
  *  Everything on the site is generated from the objects below.
- *  To add a project, video, artwork, or job: copy an existing entry,
- *  paste it, and change the values. Save, refresh, done.
- *
+ *  Copy an existing entry, paste it, change the values. Save, refresh, done.
  *  Anything marked TODO is still waiting on you.
- *
- *  Status values used across the site:
- *    "shipped"  -> done / live
- *    "active"   -> currently working on it
- *    "planned"  -> on the roadmap, not started
  */
 
 const SITE = {
   /* ---------- Identity ---------- */
-  name: "FrattiJ",
-  realName: "Jacob Fratti",
-  tagline: "Pricing analyst by day. I build the tools behind the numbers at work, and small apps for fun at home.",
-  intro:
-    "Six years in beverage alcohol distribution, now a Pricing Specialist at Reyes Beverage Group, " +
-    "finishing an MBA in Business Analytics at UCF. At work I built the Python and Snowflake " +
-    "tool our pricing team runs every month, plus two Alteryx workflows for supplier and chain pricing. Outside work I build apps in Next.js and Supabase for fun.",
+  name: "Jacob Fratti",
+  title: "Pricing and Analytics",
   location: "Orlando, FL",
-  availability: "MBA, Business Analytics, August 2027",
+  tagline: "I build the automation that replaces manual pricing work, and I measure what it saves.",
+  intro:
+    "Six years in beverage alcohol distribution, from field analytics for national retail chains to " +
+    "pricing for a multi-supplier portfolio. Pricing Specialist at Reyes Beverage Group, and finishing " +
+    "an MBA in Business Analytics at UCF in August 2027.",
 
-  /* ---------- Links (leave url "" to hide a link) ---------- */
+  /* ---------- Links (leave url "" to hide a link). The first one is the main button. ---------- */
   links: [
-    { label: "GitHub", url: "https://github.com/FrattiJ" },
-    { label: "YouTube", url: "" }, // TODO: "https://www.youtube.com/@Fratti" once the first video is up
     { label: "LinkedIn", url: "" }, // TODO: your profile URL
-    { label: "Email", url: "" }, // TODO: "mailto:..." if you want it public
+    { label: "Email", url: "" }, // TODO: "mailto:you@example.com"
+    { label: "GitHub", url: "https://github.com/FrattiJ" },
   ],
 
-  /* Pull your latest public repos from GitHub automatically.
-     Set to "" to turn this off. */
-  githubUser: "FrattiJ",
-  githubRepoCount: 6,
+  /* ---------- The numbers under the intro ---------- */
+  highlights: [
+    { value: "6 yrs", label: "Beverage alcohol distribution" },
+    { value: "~150", label: "Accounts priced, across 12 supplier portfolios" },
+    { value: "6 hrs to 1 min", label: "Chain cost file, after automation" },
+    { value: "1,800", label: "SKUs validated per supplier price book" },
+  ],
 
   /* ---------- About ---------- */
   about: {
@@ -46,39 +40,44 @@ const SITE = {
       "I came up through the field side of beverage distribution: five years running analytics and " +
         "reporting for 56 Walgreens and CVS locations, then a year owning performance for high-volume " +
         "Walmart and Target stores. In March 2026 I moved into pricing, where I own costing and pricing " +
-        "models for about 150 accounts across 12 supplier portfolios. The part I enjoy most is taking a " +
-        "process that eats a day every cycle and turning it into one click.",
-      "Code started with the UCF Full Stack boot camp in 2024 and stuck. Now I build things for fun, " +
-        "usually tools I want for myself: a backlog and workout tracker, a private newsletter for my family, and a " +
-        "character builder for the tabletop games I run. Away from the keyboard I am working through a " +
-        "structured drawing curriculum.",
+        "models for about 150 accounts across 12 supplier portfolios.",
+      "The part I enjoy most is taking a process that eats a day every cycle and turning it into one " +
+        "click. That is what the work projects below are. Outside work I write code for fun, which is " +
+        "where the personal projects come from.",
     ],
-    skills: {
-      "Pricing & Analytics": ["Alteryx Designer", "SQL", "Snowflake", "Excel (advanced)", "Power BI"],
-      Code: ["TypeScript", "JavaScript", "Python", "React", "Next.js", "Supabase / Postgres", "Vite"],
-      Tools: ["Git", "Vercel", "GitHub Pages", "Salesforce", "Claude Code"],
-      Creative: ["Drawing", "Tabletop game design"],
-    },
+  },
+
+  /* ---------- Career goals (shown beside About) ---------- */
+  goals: {
+    heading: "What I am looking for",
+    // TODO: draft. Replace with your own career goals summary.
+    paragraphs: [
+      "Analyst roles in pricing, revenue management and cost analysis, in the Orlando area. I want to " +
+        "own pricing as a discipline and build the automation behind it.",
+    ],
+    points: [],
   },
 
   /* ---------- Projects ----------
-     category: "code" | "video" | "art" | "other"
-     The "process" list is the "how I did it" write-up shown when someone
-     clicks a project. Write each step as a short heading + a sentence or two.
-     image: optional path like "assets/projects/my-thing.png"
+     group: "work" | "personal" (the order and titles are set in projectGroups)
+     The "process" list is the write-up shown when someone opens a project.
+     status: "shipped" (shown as "In use") | "active" | "planned"
   */
+  projectGroups: [
+    { id: "work", title: "At work", note: "Internal tools. The code is not public, so these are write-ups." },
+    { id: "personal", title: "Personal projects", note: "Built for fun, to learn, and because I wanted them to exist." },
+  ],
   projects: [
     {
       id: "pricing-tool",
       title: "Pricing Tool",
-      category: "work",
+      group: "work",
       status: "shipped",
       year: "2026",
       summary:
         "A Python desktop app that runs the pricing team's monthly processes: it pulls the data from Snowflake, validates it, and builds the Excel files the team works from.",
       tags: ["Python", "SQL", "Snowflake", "PyInstaller", "Excel"],
       links: [],
-      image: "",
       process: [
         {
           title: "Problem",
@@ -101,14 +100,13 @@ const SITE = {
     {
       id: "alteryx-workflows",
       title: "Alteryx Pricing Workflows",
-      category: "work",
+      group: "work",
       status: "shipped",
       year: "2026",
       summary:
         "Two Alteryx workflows: one builds a chain's cost file in under a minute instead of six hours, the other validates a supplier's price book and generates the upload forms.",
       tags: ["Alteryx", "SQL", "Snowflake", "Excel"],
       links: [],
-      image: "",
       process: [
         {
           title: "Chain cost file",
@@ -127,7 +125,7 @@ const SITE = {
     {
       id: "hobbylog",
       title: "Hobbylog",
-      category: "code",
+      group: "personal",
       status: "shipped",
       year: "2026",
       summary:
@@ -137,7 +135,6 @@ const SITE = {
         { label: "Live app", url: "https://hobbylog-web.vercel.app" },
         { label: "Source", url: "https://github.com/FrattiJ/hobbylog-web" },
       ],
-      image: "",
       process: [
         {
           title: "Problem",
@@ -164,14 +161,13 @@ const SITE = {
     {
       id: "family-newsletter",
       title: "The Family Newsletter",
-      category: "code",
+      group: "personal",
       status: "shipped",
       year: "2026",
       summary:
         "A private site where anyone in the family can post a story. Each one lands on a newspaper-style page and is emailed to everyone at once.",
       tags: ["Next.js 16", "React 19", "TypeScript", "Supabase", "SMTP", "Vercel"],
       links: [{ label: "Source", url: "https://github.com/FrattiJ/Family-Newsletter" }],
-      image: "",
       process: [
         {
           title: "Problem",
@@ -194,7 +190,7 @@ const SITE = {
     {
       id: "dead-in-the-water",
       title: "Dead in the Water: Character Builder",
-      category: "code",
+      group: "personal",
       status: "shipped",
       year: "2026",
       summary:
@@ -204,7 +200,6 @@ const SITE = {
         { label: "Live app", url: "https://frattij.github.io/DeadInTheWater/" },
         { label: "Source", url: "https://github.com/FrattiJ/DeadInTheWater" },
       ],
-      image: "",
       process: [
         {
           title: "Problem",
@@ -224,74 +219,19 @@ const SITE = {
         },
       ],
     },
-    {
-      id: "drawing-curriculum",
-      title: "Learning to Draw, Properly",
-      category: "art",
-      status: "active",
-      year: "2026",
-      summary:
-        "A structured, multi-year drawing curriculum starting from Drawabox fundamentals: lines, ellipses, boxes, the 250 Box Challenge, organic forms.",
-      tags: ["Drawabox", "Ink", "Sketchbook"],
-      links: [],
-      image: "",
-      process: [
-        {
-          title: "Approach",
-          text: "Two fixed sessions a week, worked strictly in order. Behind schedule is fine; skipping ahead is not.",
-        },
-        {
-          title: "What critique taught me",
-          text: "Six critiques flagged the same two habits: draw from the shoulder, not the wrist, and plot both end points before every line.",
-        },
-        {
-          title: "Milestone",
-          text: "Phase 1 ends at the first checkpoint in February 2027. Finished pages go in the Art section as they come.",
-        },
-      ],
-    },
   ],
 
-  /* ---------- Roadmap: what you plan to do ----------
-     column: "now" | "next" | "later"
-  */
-  roadmap: [
-    { column: "now", title: "MBA, Business Analytics", note: "Evening classes at UCF, graduating August 2027." },
-    { column: "now", title: "Pricing automation", note: "Logging the hours and errors the Pricing Tool and Alteryx workflows save each cycle." },
-    { column: "now", title: "Drawing fundamentals", note: "Phase 1 of the curriculum, through February 2027." },
-    { column: "next", title: "First YouTube upload", note: "Jurassic Park, Random Island: Part 1. Everything but the recording is done." },
-    { column: "next", title: "Supply chain network redesign write-up", note: "An MBA case: a distribution network rebuilt around a disruption, profitable over 30 simulated days." },
-    { column: "later", title: "Lead a pricing function", note: "Senior pricing or revenue management after graduation, then owning the function." },
-  ],
-
-  /* ---------- YouTube ----------
-     channelUrl: link to the channel once it exists.
-     videos: add entries with the YouTube video ID (the part after "v=" in the URL).
-     While videos is empty, the section shows a "coming soon" panel with the plans below.
-  */
-  youtube: {
-    channelUrl: "", // TODO: "https://www.youtube.com/@Fratti"
-    pitch: "Long, low-key gaming sessions. Play what you want, no plan.",
-    plannedTopics: [
-      "Jurassic Park, Random Island: a Jurassic World Evolution 3 series on a random island with no plan",
-      "A park tour episode once the island is big enough to show off",
-    ],
-    videos: [
-      // { id: "dQw4w9WgXcQ", title: "Jurassic Park, Random Island: Part 1", date: "2027-01-01" },
-    ],
+  /* ---------- Skills ---------- */
+  skills: {
+    "Pricing and analysis": ["Product costing", "Price reconciliation", "Variance analysis", "KPI reporting", "Demand forecasting"],
+    "Data and BI": ["SQL", "Snowflake", "Alteryx Designer", "Excel (advanced)", "Power BI"],
+    Programming: ["Python", "JavaScript", "TypeScript"],
+    Systems: ["Salesforce", "Proof CRM", "Git"],
   },
 
-  /* ---------- Art ----------
-     Put images in assets/art/ and reference them here.
-     While this list is empty the section says finished pages are on the way.
-  */
-  art: [
-    // { title: "250 Box Challenge, page 1", medium: "Ink", year: "2026", image: "assets/art/boxes-01.jpg" },
-  ],
-
   /* ---------- Resume ----------
-     pdf: put a copy WITHOUT phone number or home address at assets/resume.pdf
-     and set the path here. "" hides the button.
+     pdf: a copy WITHOUT your phone number or home address at assets/resume.pdf,
+     then set the path here. "" hides the download buttons.
   */
   resume: {
     pdf: "",

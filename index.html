@@ -3,8 +3,8 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>FrattiJ</title>
-    <meta name="description" content="Projects, resume, videos, and art by FrattiJ." />
+    <title>Jacob Fratti</title>
+    <meta name="description" content="Jacob Fratti: pricing and analytics. Experience, projects, skills and education." />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -24,14 +24,12 @@
     <a class="skip" href="#main">Skip to content</a>
 
     <header class="nav">
-      <a class="brand" href="#top" id="brand">FrattiJ</a>
+      <a class="brand" href="#top" id="brand"></a>
       <nav aria-label="Sections">
-        <a href="#work">Work</a>
-        <a href="#roadmap">Roadmap</a>
-        <a href="#videos">Videos</a>
-        <a href="#art">Art</a>
-        <a href="#resume">Resume</a>
         <a href="#about">About</a>
+        <a href="#experience">Experience</a>
+        <a href="#projects">Projects</a>
+        <a href="#skills">Skills</a>
       </nav>
       <button class="theme-toggle" id="themeToggle" aria-label="Toggle color theme">
         <span aria-hidden="true">&#9680;</span>
@@ -48,57 +46,37 @@
         <dl class="stats" id="heroStats"></dl>
       </section>
 
-      <section id="work">
-        <div class="section-head">
-          <h2><span class="num mono">01</span> Work</h2>
-          <p>Everything I have built or made, and how I did it. Click any card for the full story.</p>
-        </div>
-        <div class="filters" role="tablist" id="filters"></div>
-        <div class="grid projects" id="projectGrid"></div>
-
-        <div class="repos-wrap" id="reposWrap" hidden>
-          <h3 class="sub mono">Latest on GitHub</h3>
-          <div class="repos" id="repoList"></div>
-        </div>
-      </section>
-
-      <section id="roadmap">
-        <div class="section-head">
-          <h2><span class="num mono">02</span> Roadmap</h2>
-          <p>What I am doing now, what is next, and where I am headed.</p>
-        </div>
-        <div class="roadmap" id="roadmapBoard"></div>
-      </section>
-
-      <section id="videos">
-        <div class="section-head">
-          <h2><span class="num mono">03</span> Videos</h2>
-          <p id="videoPitch"></p>
-        </div>
-        <div id="videoBody"></div>
-      </section>
-
-      <section id="art">
-        <div class="section-head">
-          <h2><span class="num mono">04</span> Art</h2>
-          <p>Things I have drawn, painted, and designed.</p>
-        </div>
-        <div class="gallery" id="gallery"></div>
-      </section>
-
-      <section id="resume">
-        <div class="section-head">
-          <h2><span class="num mono">05</span> Resume</h2>
-          <p>The short version. <span id="resumeDownload"></span></p>
-        </div>
-        <div class="resume" id="resumeBody"></div>
-      </section>
-
       <section id="about">
         <div class="section-head">
-          <h2><span class="num mono">06</span> About</h2>
+          <h2><span class="num mono">01</span> About</h2>
         </div>
         <div class="about" id="aboutBody"></div>
+      </section>
+
+      <section id="experience">
+        <div class="section-head">
+          <h2><span class="num mono">02</span> Experience</h2>
+          <p><span id="resumeDownload"></span></p>
+        </div>
+        <div class="resume" id="experienceBody"></div>
+      </section>
+
+      <section id="projects">
+        <div class="section-head">
+          <h2><span class="num mono">03</span> Projects</h2>
+          <p>Select any card for the full write-up.</p>
+        </div>
+        <div id="projectGroups"></div>
+      </section>
+
+      <section id="skills">
+        <div class="section-head">
+          <h2><span class="num mono">04</span> Skills and education</h2>
+        </div>
+        <div class="split">
+          <div class="skills" id="skillsBody"></div>
+          <div class="resume" id="educationBody"></div>
+        </div>
       </section>
     </main>
 
@@ -110,12 +88,6 @@
     <dialog class="modal" id="projectModal" aria-labelledby="modalTitle">
       <button class="modal-close" id="modalClose" aria-label="Close">&times;</button>
       <div id="modalBody"></div>
-    </dialog>
-
-    <dialog class="lightbox" id="lightbox">
-      <button class="modal-close" id="lightboxClose" aria-label="Close">&times;</button>
-      <img id="lightboxImg" alt="" />
-      <p id="lightboxCaption" class="mono"></p>
     </dialog>
 
     <script src="js/content.js"></script>

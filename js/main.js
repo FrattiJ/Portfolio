@@ -25,22 +25,7 @@
   const linkAttrs = (url) =>
     isExternal(url) ? { href: url, target: "_blank", rel: "noopener noreferrer" } : { href: url };
 
-  const STATUS_LABEL = { shipped: "Shipped", active: "In progress", planned: "Planned" };
-  const CATEGORY_LABEL = { work: "Work tool", code: "Hobby code", video: "Video", art: "Art", other: "Other" };
-
-  // Deterministic gradient for placeholder tiles, so each card looks distinct.
-  function hue(str) {
-    let n = 0;
-    for (const ch of str) n = (n * 31 + ch.charCodeAt(0)) % 360;
-    return n;
-  }
-  function placeholder(label, seed) {
-    const hh = hue(seed || label);
-    const el = h("div", { class: "ph", "aria-hidden": "true" }, h("span", { class: "mono" }, label));
-    el.style.setProperty("--h", hh);
-    return el;
-  }
-
+  const STATUS_LABEL = { shipped: "In use", active: "In progress", planned: "Planned" };
   const statusPill = (s) => h("span", { class: `pill status-${s}` }, STATUS_LABEL[s] || s);
   const visibleLinks = (links) => (links || []).filter((l) => has(l.url));
 
@@ -61,80 +46,118 @@
 
   /* ---------- Hero ---------- */
   function renderHero() {
-    document.title = SITE.realName ? `${SITE.name} | ${SITE.realName}` : SITE.name;
+    document.title = SITE.title ? `${SITE.name} | ${SITE.title}` : SITE.name;
     $("#brand").textContent = SITE.name;
-
-    const bits = [SITE.location, SITE.availability].filter(has);
-    $("#heroEyebrow").textContent = bits.length ? bits.join("  /  ") : "Hi, I'm";
-    $("#heroName").textContent = SITE.realName ? `${SITE.realName}` : SITE.name;
-    if (SITE.realName) $("#heroName").append(h("span", { class: "handle mono" }, ` aka ${SITE.name}`));
+    $("#heroEyebrow").textContent = [SITE.title, SITE.location].filter(has).join("  /  ");
+    $("#heroName").textContent = SITE.name;
     $("#heroTagline").textContent = SITE.tagline;
     $("#heroIntro").textContent = SITE.intro;
 
     const links = visibleLinks(SITE.links);
+    const r = SITE.resume || {};
     $("#heroLinks").append(
-      h("a", { class: "btn primary", href: "#work" }, "See my work"),
-      ...links.map((l) => h("a", { class: "btn", ...linkAttrs(l.url) }, l.label))
+      ...[
+        has(r.pdf) ? h("a", { class: "btn primary", href: r.pdf, download: "" }, "Download resume") : null,
+        ...links.map((l, i) =>
+          h("a", { class: !has(r.pdf) && i === 0 ? "btn primary" : "btn", ...linkAttrs(l.url) }, l.label)
+        ),
+      ].filter(Boolean)
     );
 
-    const stats = [
-      ["Projects", SITE.projects.length],
-      ["Shipped", SITE.projects.filter((p) => p.status === "shipped").length],
-      ["In progress", SITE.projects.filter((p) => p.status === "active").length],
-      ["Artworks", SITE.art.length],
-    ].filter(([, v]) => v > 0);
     $("#heroStats").append(
-      ...stats.map(([k, v]) => h("div", {}, h("dt", { class: "mono" }, k), h("dd", {}, v)))
+      ...(SITE.highlights || []).map((s) =>
+        h("div", {}, h("dt", {}, s.label), h("dd", {}, s.value))
+      )
     );
+  }
+
+  /* ---------- About ---------- */
+  function renderAbout() {
+    const a = SITE.about || {};
+    const g = SITE.goals || {};
+    $("#aboutBody").append(
+      ...[
+      h("div", { class: "about-text" }, (a.paragraphs || []).map((p) => h("p", {}, p))),
+      (g.paragraphs || []).length || (g.points || []).length
+        ? h(
+            "aside",
+            { class: "goals" },
+            h("h3", { class: "mono" }, g.heading || "What I am looking for"),
+            (g.paragraphs || []).map((p) => h("p", {}, p)),
+            (g.points || []).length ? h("ul", {}, g.points.map((p) => h("li", {}, p))) : null
+          )
+        : null,
+      ].filter(Boolean)
+    );
+  }
+
+  /* ---------- Timelines (experience, education) ---------- */
+  function timeline(title, items) {
+    if (!(items || []).length) return null;
+    return h(
+      "div",
+      { class: "timeline" },
+      title ? h("h3", { class: "mono" }, title) : null,
+      items.map((x) =>
+        h(
+          "article",
+          {},
+          h(
+            "div",
+            { class: "when mono" },
+            [x.start, x.end].filter(has).filter((v, i, a) => a.indexOf(v) === i).join(" - ")
+          ),
+          h(
+            "div",
+            {},
+            h("h4", {}, x.role),
+            h("p", { class: "org" }, x.org),
+            (x.points || []).length ? h("ul", {}, x.points.map((pt) => h("li", {}, pt))) : null
+          )
+        )
+      )
+    );
+  }
+
+  function renderExperience() {
+    const r = SITE.resume || {};
+    if (has(r.pdf)) {
+      $("#resumeDownload").append(h("a", { href: r.pdf, download: "" }, "Download the full resume (PDF)."));
+    }
+    const t = timeline("", r.experience);
+    if (t) $("#experienceBody").append(t);
   }
 
   /* ---------- Projects ---------- */
   function renderProjects() {
-    const cats = ["all", ...new Set(SITE.projects.map((p) => p.category))];
-    const filters = $("#filters");
-    const grid = $("#projectGrid");
-
-    function draw(filter) {
-      grid.replaceChildren(
-        ...SITE.projects
-          .filter((p) => filter === "all" || p.category === filter)
-          .map(projectCard)
-      );
-      for (const b of filters.children) b.setAttribute("aria-selected", b.dataset.cat === filter);
-    }
-
-    filters.append(
-      ...cats.map((c) =>
+    const wrap = $("#projectGroups");
+    for (const group of SITE.projectGroups || []) {
+      const items = SITE.projects.filter((p) => p.group === group.id);
+      if (!items.length) continue;
+      wrap.append(
         h(
-          "button",
-          { role: "tab", "data-cat": c, onclick: () => draw(c) },
-          c === "all" ? "All" : CATEGORY_LABEL[c] || c
+          "div",
+          { class: "project-group" },
+          h("h3", { class: "sub mono" }, group.title),
+          has(group.note) ? h("p", { class: "group-note" }, group.note) : null,
+          h("div", { class: "grid projects" }, items.map(projectCard))
         )
-      )
-    );
-    draw("all");
+      );
+    }
   }
 
   function projectCard(p) {
-    const media = has(p.image)
-      ? h("img", { src: p.image, alt: "", loading: "lazy" })
-      : placeholder(CATEGORY_LABEL[p.category] || p.category, p.id);
     return h(
       "button",
       { class: "card", onclick: () => openProject(p), "aria-haspopup": "dialog" },
-      h("div", { class: "card-media" }, media),
       h(
         "div",
         { class: "card-body" },
-        h("div", { class: "card-meta mono" }, h("span", {}, CATEGORY_LABEL[p.category] || p.category), h("span", {}, p.year)),
+        h("div", { class: "card-meta mono" }, h("span", {}, p.year), statusPill(p.status)),
         h("h3", {}, p.title),
         h("p", {}, p.summary),
-        h(
-          "div",
-          { class: "card-foot" },
-          statusPill(p.status),
-          h("span", { class: "more mono" }, "How I did it →")
-        )
+        (p.tags || []).length ? h("ul", { class: "tags small" }, p.tags.map((t) => h("li", { class: "mono" }, t))) : null,
+        h("div", { class: "card-foot" }, h("span", { class: "more mono" }, "Read more →"))
       )
     );
   }
@@ -142,30 +165,19 @@
   function openProject(p) {
     const body = $("#modalBody");
     const links = visibleLinks(p.links);
-    body.replaceChildren();
-    body.append(
+    body.replaceChildren(
       ...[
-      h(
-        "div",
-        { class: "card-meta mono" },
-        h("span", {}, CATEGORY_LABEL[p.category] || p.category),
-        h("span", {}, p.year),
-        statusPill(p.status)
-      ),
-      h("h2", { id: "modalTitle" }, p.title),
-      h("p", { class: "lede" }, p.summary),
-      has(p.image) ? h("img", { class: "modal-img", src: p.image, alt: p.title }) : null,
-      (p.tags || []).length ? h("ul", { class: "tags" }, p.tags.map((t) => h("li", { class: "mono" }, t))) : null,
-      (p.process || []).length
-        ? h(
-            "ol",
-            { class: "process" },
-            p.process.map((s) => h("li", {}, h("h4", {}, s.title), h("p", {}, s.text)))
-          )
-        : null,
-      links.length
-        ? h("div", { class: "hero-links" }, links.map((l) => h("a", { class: "btn", ...linkAttrs(l.url) }, l.label)))
-        : null,
+        h("div", { class: "card-meta mono" }, h("span", {}, p.year), statusPill(p.status)),
+        h("h2", { id: "modalTitle" }, p.title),
+        h("p", { class: "lede" }, p.summary),
+        has(p.image) ? h("img", { class: "modal-img", src: p.image, alt: p.title }) : null,
+        (p.tags || []).length ? h("ul", { class: "tags" }, p.tags.map((t) => h("li", { class: "mono" }, t))) : null,
+        (p.process || []).length
+          ? h("ol", { class: "process" }, p.process.map((s) => h("li", {}, h("h4", {}, s.title), h("p", {}, s.text))))
+          : null,
+        links.length
+          ? h("div", { class: "hero-links" }, links.map((l) => h("a", { class: "btn", ...linkAttrs(l.url) }, l.label)))
+          : null,
       ].filter(Boolean)
     );
     history.replaceState(null, "", `#project/${p.id}`);
@@ -179,9 +191,9 @@
       if (e.target === modal) modal.close();
     });
     modal.addEventListener("close", () => {
-      if (location.hash.startsWith("#project/")) history.replaceState(null, "", "#work");
+      if (location.hash.startsWith("#project/")) history.replaceState(null, "", "#projects");
     });
-    // Deep link: site.com/#project/this-site opens that project.
+    // Deep link: site.com/#project/pricing-tool opens that project.
     const m = location.hash.match(/^#project\/(.+)$/);
     if (m) {
       const p = SITE.projects.find((x) => x.id === decodeURIComponent(m[1]));
@@ -189,236 +201,34 @@
     }
   }
 
-  /* ---------- GitHub repos (live) ---------- */
-  async function renderRepos() {
-    if (!has(SITE.githubUser)) return;
-    try {
-      const res = await fetch(
-        `https://api.github.com/users/${encodeURIComponent(SITE.githubUser)}/repos?sort=pushed&per_page=30`
-      );
-      if (!res.ok) return;
-      const repos = (await res.json())
-        .filter((r) => !r.fork)
-        .slice(0, SITE.githubRepoCount || 6);
-      if (!repos.length) return;
-      $("#repoList").append(
-        ...repos.map((r) =>
-          h(
-            "a",
-            { class: "repo", ...linkAttrs(r.html_url) },
-            h("strong", { class: "mono" }, r.name),
-            h("p", {}, r.description || "No description yet."),
-            h(
-              "div",
-              { class: "repo-meta mono" },
-              r.language ? h("span", {}, r.language) : null,
-              h("span", {}, `★ ${r.stargazers_count}`),
-              h("span", {}, `Updated ${new Date(r.pushed_at).toLocaleDateString()}`)
-            )
-          )
-        )
-      );
-      $("#reposWrap").hidden = false;
-    } catch (e) {
-      /* Offline or rate-limited: the section just stays hidden. */
-    }
-  }
-
-  /* ---------- Roadmap ---------- */
-  function renderRoadmap() {
-    const cols = [
-      ["now", "Now"],
-      ["next", "Next"],
-      ["later", "Later"],
-    ];
-    $("#roadmapBoard").append(
-      ...cols.map(([key, label]) =>
+  /* ---------- Skills and education ---------- */
+  function renderSkills() {
+    $("#skillsBody").append(
+      ...Object.entries(SITE.skills || {}).map(([group, items]) =>
         h(
           "div",
-          { class: `col col-${key}` },
-          h("h3", { class: "mono" }, label),
-          h(
-            "ul",
-            {},
-            SITE.roadmap
-              .filter((r) => r.column === key)
-              .map((r) => h("li", {}, h("strong", {}, r.title), has(r.note) ? h("p", {}, r.note) : null))
-          )
+          {},
+          h("h3", { class: "mono" }, group),
+          h("ul", { class: "tags" }, items.map((s) => h("li", { class: "mono" }, s)))
         )
       )
     );
-  }
-
-  /* ---------- Videos ---------- */
-  function renderVideos() {
-    const yt = SITE.youtube || {};
-    $("#videoPitch").textContent = yt.pitch || "";
-    const body = $("#videoBody");
-    const videos = yt.videos || [];
-
-    if (!videos.length) {
-      body.append(
-        h(
-          "div",
-          { class: "coming" },
-          h("span", { class: "pill status-planned" }, "Channel coming soon"),
-          h("h3", {}, "Planned videos"),
-          h("ul", {}, (yt.plannedTopics || []).map((t) => h("li", {}, t))),
-          has(yt.channelUrl)
-            ? h("a", { class: "btn primary", ...linkAttrs(yt.channelUrl) }, "Subscribe on YouTube")
-            : null
-        )
-      );
-      return;
-    }
-
-    body.append(
-      h(
-        "div",
-        { class: "grid videos" },
-        videos.map((v) =>
-          h(
-            "figure",
-            { class: "video" },
-            h(
-              "div",
-              { class: "video-frame" },
-              h("iframe", {
-                src: `https://www.youtube-nocookie.com/embed/${encodeURIComponent(v.id)}`,
-                title: v.title,
-                loading: "lazy",
-                allow: "accelerometer; encrypted-media; gyroscope; picture-in-picture",
-                allowfullscreen: true,
-              })
-            ),
-            h("figcaption", {}, h("strong", {}, v.title), v.date ? h("span", { class: "mono" }, v.date) : null)
-          )
-        )
-      ),
-      has(yt.channelUrl)
-        ? h("p", { class: "center" }, h("a", { class: "btn primary", ...linkAttrs(yt.channelUrl) }, "See the full channel"))
-        : null
-    );
-  }
-
-  /* ---------- Art ---------- */
-  function renderArt() {
-    const lb = $("#lightbox");
-    $("#lightboxClose").addEventListener("click", () => lb.close());
-    lb.addEventListener("click", (e) => {
-      if (e.target === lb) lb.close();
-    });
-
-    if (!SITE.art.length) {
-      $("#gallery").replaceWith(
-        h("p", { class: "coming" }, "Finished pages are on the way. The drawing work in progress is under Work, filtered to Art.")
-      );
-      return;
-    }
-    $("#gallery").append(
-      ...SITE.art.map((a, i) => {
-        const caption = [a.title, a.medium, a.year].filter(has).join("  /  ");
-        if (!has(a.image)) {
-          return h(
-            "figure",
-            { class: "art" },
-            placeholder(a.medium || "Art", a.title + i),
-            h("figcaption", { class: "mono" }, caption)
-          );
-        }
-        return h(
-          "figure",
-          { class: "art" },
-          h(
-            "button",
-            {
-              class: "art-btn",
-              "aria-label": `Enlarge ${a.title}`,
-              onclick: () => {
-                $("#lightboxImg").src = a.image;
-                $("#lightboxImg").alt = a.title;
-                $("#lightboxCaption").textContent = caption;
-                lb.showModal();
-              },
-            },
-            h("img", { src: a.image, alt: a.title, loading: "lazy" })
-          ),
-          h("figcaption", { class: "mono" }, caption)
-        );
-      })
-    );
-  }
-
-  /* ---------- Resume ---------- */
-  function renderResume() {
-    const r = SITE.resume || {};
-    if (has(r.pdf)) {
-      $("#resumeDownload").append(h("a", { href: r.pdf, download: "" }, "Download the PDF."));
-    }
-    const block = (title, items) =>
-      (items || []).length
-        ? h(
-            "div",
-            { class: "timeline" },
-            h("h3", { class: "mono" }, title),
-            items.map((x) =>
-              h(
-                "article",
-                {},
-                h("div", { class: "when mono" }, [x.start, x.end].filter(has).filter((v, i, a) => a.indexOf(v) === i).join(" - ")),
-                h(
-                  "div",
-                  {},
-                  h("h4", {}, x.role),
-                  h("p", { class: "org" }, x.org),
-                  (x.points || []).length ? h("ul", {}, x.points.map((pt) => h("li", {}, pt))) : null
-                )
-              )
-            )
-          )
-        : null;
-    $("#resumeBody").append(
-      ...[block("Experience", r.experience), block("Education", r.education)].filter(Boolean)
-    );
-  }
-
-  /* ---------- About ---------- */
-  function renderAbout() {
-    const a = SITE.about || {};
-    $("#aboutBody").append(
-      h("div", { class: "about-text" }, (a.paragraphs || []).map((p) => h("p", {}, p))),
-      h(
-        "div",
-        { class: "skills" },
-        Object.entries(a.skills || {}).map(([group, items]) =>
-          h(
-            "div",
-            {},
-            h("h3", { class: "mono" }, group),
-            h("ul", { class: "tags" }, items.map((s) => h("li", { class: "mono" }, s)))
-          )
-        )
-      )
-    );
+    const t = timeline("Education", (SITE.resume || {}).education);
+    if (t) $("#educationBody").append(t);
   }
 
   /* ---------- Footer ---------- */
   function renderFooter() {
-    $("#footerText").textContent = `© ${new Date().getFullYear()} ${SITE.realName || SITE.name}. Built by hand, hosted on GitHub Pages.`;
-    $("#footerLinks").append(
-      ...visibleLinks(SITE.links).map((l) => h("a", linkAttrs(l.url), l.label))
-    );
+    $("#footerText").textContent = `© ${new Date().getFullYear()} ${SITE.name}`;
+    $("#footerLinks").append(...visibleLinks(SITE.links).map((l) => h("a", linkAttrs(l.url), l.label)));
   }
 
   initTheme();
   renderHero();
-  renderProjects();
-  renderRoadmap();
-  renderVideos();
-  renderArt();
-  renderResume();
   renderAbout();
+  renderExperience();
+  renderProjects();
+  renderSkills();
   renderFooter();
   initModal();
-  renderRepos();
 })();
