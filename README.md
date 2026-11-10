@@ -15,10 +15,7 @@ Plain HTML, CSS, and JavaScript. No framework, no build step, no dependencies.
 | Update About or career goals    | `about`, `goals`                              |
 | Add a project                   | Copy an entry in `projects`, set its `group`  |
 | Update experience or education  | `resume.experience`, `resume.education`       |
-| Add a resume PDF                | Save as `assets/resume.pdf`, set `resume.pdf` |
-| Add LinkedIn or email           | `links` (the first link is the main button)   |
-
-Search the file for `TODO` to find what is still waiting on you.
+| Change the links                | `links` (the first link is the main button)   |
 
 Each project has a shareable link, e.g. `yoursite/#project/pricing-tool` opens that write-up directly. Light and dark mode follow the visitor's system setting, with a toggle in the nav.
 
@@ -45,5 +42,5 @@ index.html        page skeleton
 css/style.css     all styling (colors are tokens at the top)
 js/content.js     YOUR CONTENT
 js/main.js        renders content into the page
-assets/           resume PDF
+assets/           images, if any
 ```
