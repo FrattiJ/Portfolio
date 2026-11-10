@@ -107,7 +107,7 @@
       (g.paragraphs || []).length || (g.points || []).length
         ? h(
             "aside",
-            { class: "goals" },
+            { class: "goals frame" },
             h("h3", {}, g.heading || "What I am looking for"),
             (g.paragraphs || []).map((p) => h("p", {}, p)),
             (g.points || []).length ? h("ul", {}, g.points.map((p) => h("li", {}, p))) : null
@@ -172,7 +172,7 @@
   function projectCard(p) {
     return h(
       "article",
-      { class: "entry" },
+      { class: "entry frame" },
       h("h3", {}, p.title),
       h("div", { class: "entry-meta" }, h("span", {}, p.year), statusPill(p.status)),
       h("p", {}, p.summary),
