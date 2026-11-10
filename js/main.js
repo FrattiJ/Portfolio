@@ -82,7 +82,7 @@
       ["Shipped", SITE.projects.filter((p) => p.status === "shipped").length],
       ["In progress", SITE.projects.filter((p) => p.status === "active").length],
       ["Artworks", SITE.art.length],
-    ];
+    ].filter(([, v]) => v > 0);
     $("#heroStats").append(
       ...stats.map(([k, v]) => h("div", {}, h("dt", { class: "mono" }, k), h("dd", {}, v)))
     );
@@ -309,6 +309,12 @@
       if (e.target === lb) lb.close();
     });
 
+    if (!SITE.art.length) {
+      $("#gallery").replaceWith(
+        h("p", { class: "coming" }, "Finished pages are on the way. The drawing work in progress is under Work, filtered to Art.")
+      );
+      return;
+    }
     $("#gallery").append(
       ...SITE.art.map((a, i) => {
         const caption = [a.title, a.medium, a.year].filter(has).join("  /  ");
@@ -359,7 +365,7 @@
               h(
                 "article",
                 {},
-                h("div", { class: "when mono" }, `${x.start} - ${x.end}`),
+                h("div", { class: "when mono" }, [x.start, x.end].filter(has).filter((v, i, a) => a.indexOf(v) === i).join(" - ")),
                 h(
                   "div",
                   {},
