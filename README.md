@@ -1,6 +1,6 @@
-# FrattiJ Portfolio
+# Jacob Fratti, personal site
 
-One place for everything: code projects, resume, videos, art, and what is coming next.
+A one-page professional site for the resume: who I am, what I am looking for, experience, projects, skills and education.
 
 Plain HTML, CSS, and JavaScript. No framework, no build step, no dependencies.
 
@@ -8,26 +8,19 @@ Plain HTML, CSS, and JavaScript. No framework, no build step, no dependencies.
 
 **You only need to edit [`js/content.js`](js/content.js).** Every section of the site is generated from it.
 
-| Want to...                 | Edit this in `content.js`                         |
-| -------------------------- | ------------------------------------------------- |
-| Change name, tagline, bio  | `name`, `tagline`, `intro`, `about`               |
-| Add a project              | Copy an entry in `projects` and change it         |
-| Write "how I did it"       | The `process` list inside a project               |
-| Update plans               | `roadmap` (columns: `now`, `next`, `later`)       |
-| Add a YouTube video        | `youtube.videos` (use the ID after `v=` in a URL) |
-| Add artwork                | Put the image in `assets/art/`, add to `art`      |
-| Update resume              | `resume.experience`, `resume.education`           |
-| Add a resume PDF           | Save as `assets/resume.pdf`, set `resume.pdf`     |
+| Want to...                      | Edit this in `content.js`                     |
+| ------------------------------- | --------------------------------------------- |
+| Change headline or intro        | `title`, `tagline`, `intro`                   |
+| Change the four numbers         | `highlights`                                  |
+| Update About or career goals    | `about`, `goals`                              |
+| Add a project                   | Copy an entry in `projects`, set its `group`  |
+| Update experience or education  | `resume.experience`, `resume.education`       |
+| Add a resume PDF                | Save as `assets/resume.pdf`, set `resume.pdf` |
+| Add LinkedIn or email           | `links` (the first link is the main button)   |
 
-Search the file for `TODO` to find every placeholder.
+Search the file for `TODO` to find what is still waiting on you.
 
-Things that happen automatically:
-
-- Your latest public GitHub repos are pulled in live under "Latest on GitHub" (set `githubUser` to `""` to turn off).
-- The Videos section shows a "coming soon" panel with your planned topics until you add your first video.
-- Projects and art without images get a generated color tile, so nothing looks broken while you fill things in.
-- Each project has a shareable link, e.g. `yoursite/#project/this-site` opens that project directly.
-- Light and dark mode follow the visitor's system setting, with a toggle in the nav.
+Each project has a shareable link, e.g. `yoursite/#project/pricing-tool` opens that write-up directly. Light and dark mode follow the visitor's system setting, with a toggle in the nav.
 
 ## Previewing locally
 
@@ -52,5 +45,5 @@ index.html        page skeleton
 css/style.css     all styling (colors are tokens at the top)
 js/content.js     YOUR CONTENT
 js/main.js        renders content into the page
-assets/           images, art, resume PDF
+assets/           resume PDF
 ```

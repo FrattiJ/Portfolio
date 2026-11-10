@@ -138,6 +138,7 @@ section {
   font-weight: 700;
   text-decoration: none;
   font-size: 1.1rem;
+  white-space: nowrap;
 }
 .brand::before {
   content: "";
@@ -188,7 +189,7 @@ section {
   letter-spacing: 0.08em;
 }
 .hero h1 {
-  font-size: clamp(3rem, 10vw, 7rem);
+  font-size: clamp(2.75rem, 8vw, 5rem);
   font-weight: 700;
   letter-spacing: -0.045em;
 }
@@ -249,13 +250,22 @@ section {
 .stats div {
   background: var(--surface);
   padding: 20px;
+  display: flex;
+  flex-direction: column-reverse;
+  justify-content: flex-end;
+  gap: 6px;
 }
 .stats dt {
   color: var(--muted);
 }
+.stats dt {
+  font-size: 0.9rem;
+  line-height: 1.35;
+}
 .stats dd {
-  margin: 4px 0 0;
-  font-size: 2rem;
+  margin: 0;
+  font-size: 1.6rem;
+  line-height: 1.1;
   font-weight: 700;
 }
 
@@ -820,5 +830,57 @@ dialog::backdrop {
   }
   * {
     transition: none !important;
+  }
+}
+
+/* ---------- Analyst layout ---------- */
+.goals {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--accent);
+  border-radius: var(--radius);
+  padding: 24px;
+  display: grid;
+  gap: 12px;
+  align-content: start;
+}
+.goals h3 {
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+.goals ul {
+  margin: 0;
+  padding-left: 18px;
+  color: var(--muted);
+}
+.project-group + .project-group {
+  margin-top: 16px;
+}
+.project-group .sub {
+  margin-top: 0;
+  margin-bottom: 4px;
+}
+.group-note {
+  color: var(--muted);
+  margin-bottom: 20px;
+}
+.tags.small li {
+  font-size: 0.75rem;
+  padding: 2px 8px;
+}
+.card-body .tags {
+  margin-top: 4px;
+}
+.split {
+  display: grid;
+  grid-template-columns: 2fr 3fr;
+  gap: 48px;
+  align-items: start;
+}
+@media (max-width: 760px) {
+  .split {
+    grid-template-columns: 1fr;
   }
 }
