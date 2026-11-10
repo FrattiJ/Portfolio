@@ -54,12 +54,10 @@
     $("#heroIntro").textContent = SITE.intro;
 
     const links = visibleLinks(SITE.links);
-    const r = SITE.resume || {};
     $("#heroLinks").append(
       ...[
-        has(r.pdf) ? h("a", { class: "btn primary", href: r.pdf, download: "" }, "Download resume") : null,
         ...links.map((l, i) =>
-          h("a", { class: !has(r.pdf) && i === 0 ? "btn primary" : "btn", ...linkAttrs(l.url) }, l.label)
+          h("a", { class: i === 0 ? "btn primary" : "btn", ...linkAttrs(l.url) }, l.label)
         ),
       ].filter(Boolean)
     );
@@ -121,9 +119,6 @@
 
   function renderExperience() {
     const r = SITE.resume || {};
-    if (has(r.pdf)) {
-      $("#resumeDownload").append(h("a", { href: r.pdf, download: "" }, "Download the full resume (PDF)."));
-    }
     const t = timeline("", r.experience);
     if (t) $("#experienceBody").append(t);
   }

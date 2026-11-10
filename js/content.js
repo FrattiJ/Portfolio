@@ -5,7 +5,6 @@
  *
  *  Everything on the site is generated from the objects below.
  *  Copy an existing entry, paste it, change the values. Save, refresh, done.
- *  Anything marked TODO is still waiting on you.
  */
 
 const SITE = {
@@ -21,8 +20,7 @@ const SITE = {
 
   /* ---------- Links (leave url "" to hide a link). The first one is the main button. ---------- */
   links: [
-    { label: "LinkedIn", url: "" }, // TODO: your profile URL
-    { label: "Email", url: "" }, // TODO: "mailto:you@example.com"
+    { label: "LinkedIn", url: "https://www.linkedin.com/in/jacob-fratti" },
     { label: "GitHub", url: "https://github.com/FrattiJ" },
   ],
 
@@ -234,12 +232,8 @@ const SITE = {
     Systems: ["Salesforce", "Proof CRM", "Git"],
   },
 
-  /* ---------- Resume ----------
-     pdf: a copy WITHOUT your phone number or home address at assets/resume.pdf,
-     then set the path here. "" hides the download buttons.
-  */
+  /* ---------- Resume ---------- */
   resume: {
-    pdf: "",
     experience: [
       {
         role: "Pricing Specialist, Shared Services Pricing",
