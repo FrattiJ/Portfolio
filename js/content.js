@@ -233,9 +233,11 @@ const SITE = {
   ],
 
   /* ---------- Off the clock ----------
-     Real favorites, straight from my Hobbylog ratings.
+     Real favorites, straight from my Hobbylog ratings. Shown as a fan of cards.
+     Add image: "assets/off/name.jpg" to an item to put a picture on its card.
   */
   offClock: {
+    heading: "Off the clock",
     note: "Pulled from my own Hobbylog: 242 entries, 134 of them rated.",
     items: [
       { label: "Dinosaurs, first and always", text: "Jurassic Park, The Lost World and Jurassic Park III are all rated 10. So are both Crichton novels." },

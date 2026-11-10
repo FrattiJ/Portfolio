@@ -8,7 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;700;800&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Zen+Kaku+Gothic+New:wght@400;500;700;900&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="css/style.css" />
@@ -30,7 +30,6 @@
           <a href="#about">About</a>
           <a href="#experience">Experience</a>
           <a href="#projects">Projects</a>
-          <a href="#skills">Skills</a>
           <a href="#off-the-clock">Off the clock</a>
         </nav>
         <button class="theme-toggle" id="themeToggle" type="button" aria-label="Switch between light and dark"></button>
@@ -38,46 +37,56 @@
     </header>
 
     <main id="main">
-      <section class="hero" id="top">
-        <canvas class="topo" id="topo" aria-hidden="true"></canvas>
-        <div class="hero-text">
-          <p class="eyebrow" id="heroEyebrow"></p>
+      <!-- Splash page -->
+      <section class="splash panel" id="top">
+        <canvas class="speedlines" id="speedlines" aria-hidden="true"></canvas>
+        <div class="stamp" aria-hidden="true"></div>
+        <div class="splash-text">
+          <p class="caption-box" id="heroEyebrow"></p>
           <h1 id="heroName"></h1>
-          <p class="lede" id="heroTagline"></p>
-          <p class="intro" id="heroIntro"></p>
+          <p class="bubble" id="heroTagline"></p>
+        </div>
+        <div class="splash-foot">
+          <p class="narration" id="heroIntro"></p>
           <div class="hero-links" id="heroLinks"></div>
         </div>
+      </section>
+
+      <!-- The proof, as a strip -->
+      <section class="strip" aria-label="Before and after">
         <figure class="proof" id="proof"></figure>
         <dl class="facts" id="heroStats"></dl>
       </section>
 
-      <section class="row" id="about">
-        <h2 class="row-label">About</h2>
-        <div class="row-body about" id="aboutBody"></div>
+      <section class="chapter" id="about">
+        <h2 class="sfx">About</h2>
+        <div class="about" id="aboutBody"></div>
       </section>
 
-      <section class="row" id="experience">
-        <h2 class="row-label">Experience</h2>
-        <div class="row-body" id="experienceBody"></div>
+      <section class="chapter" id="experience">
+        <h2 class="sfx">Experience</h2>
+        <div id="experienceBody"></div>
       </section>
 
-      <section class="row" id="projects">
-        <h2 class="row-label">Projects</h2>
-        <div class="row-body" id="projectGroups"></div>
+      <section class="chapter" id="projects">
+        <h2 class="sfx">Projects</h2>
+        <div id="projectGroups"></div>
       </section>
 
-      <section class="row" id="skills">
-        <h2 class="row-label">Skills</h2>
-        <div class="row-body" id="skillsBody"></div>
+      <section class="chapter split-chapter" id="skills">
+        <div>
+          <h2 class="sfx">Skills</h2>
+          <div id="skillsBody"></div>
+        </div>
+        <div id="education">
+          <h2 class="sfx">Education</h2>
+          <div id="educationBody"></div>
+        </div>
       </section>
 
-      <section class="row" id="education">
-        <h2 class="row-label">Education</h2>
-        <div class="row-body" id="educationBody"></div>
-      </section>
-      <section class="row" id="off-the-clock">
-        <h2 class="row-label">Off the clock</h2>
-        <div class="row-body" id="offClockBody"></div>
+      <section class="chapter offclock-chapter" id="off-the-clock">
+        <div class="tracks" aria-hidden="true"></div>
+        <div id="offClockBody"></div>
       </section>
     </main>
 

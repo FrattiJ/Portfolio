@@ -49,7 +49,7 @@
     document.title = SITE.title ? `${SITE.name} | ${SITE.title}` : SITE.name;
     $("#brand").textContent = SITE.name;
     $("#heroEyebrow").textContent = [SITE.title, SITE.location].filter(has).join(", ");
-    $("#heroName").textContent = SITE.name;
+    $("#heroName").append(...SITE.name.split(" ").map((w) => h("span", {}, w)));
     $("#heroTagline").textContent = SITE.tagline;
     $("#heroIntro").textContent = SITE.intro;
 
@@ -244,7 +244,7 @@
   }
 
   /* ---------- Footer ---------- */
-  /* ---------- Off the clock ---------- */
+  /* ---------- Off the clock: a fan of cards on an arc ---------- */
   function renderOffClock() {
     const o = SITE.offClock;
     const body = $("#offClockBody");
@@ -254,54 +254,78 @@
       if (link) link.remove();
       return;
     }
+    const n = o.items.length;
+    const caption = h("p", { class: "fan-caption", "aria-live": "polite" });
+    const cards = o.items.map((x, i) => {
+      const card = h(
+        "button",
+        { class: `fan-card tone-${i % 6}`, type: "button", "aria-pressed": "false" },
+        has(x.image) ? h("img", { src: x.image, alt: "" }) : null,
+        h("span", { class: "fan-title" }, x.label),
+        h("span", { class: "fan-text" }, x.text)
+      );
+      card.style.setProperty("--i", i);
+      card.style.setProperty("--n", n);
+      card.addEventListener("click", () => select(i));
+      return card;
+    });
+    function select(i) {
+      cards.forEach((c, j) => c.setAttribute("aria-pressed", String(i === j)));
+      caption.replaceChildren(h("strong", {}, o.items[i].label), " ", o.items[i].text);
+    }
     body.append(
-      h("dl", { class: "offclock" }, o.items.map((x) => h("div", {}, h("dt", {}, x.label), h("dd", {}, x.text)))),
-      has(o.note) ? h("p", { class: "group-note" }, o.note) : null
+      h("div", { class: "fan", role: "group", "aria-label": "Things I love outside work" }, cards),
+      h("h2", { class: "fan-heading" }, o.heading || "Off the clock"),
+      caption,
+      has(o.note) ? h("p", { class: "fan-note" }, o.note) : null
     );
+    select(0);
+
+    // A trail of tracks walking across the top of the section.
+    const tracks = document.querySelector(".tracks");
+    if (tracks) {
+      for (let k = 0; k < 9; k++) {
+        const s = h("span");
+        s.style.left = `${4 + k * 11}%`;
+        s.style.top = `${18 + (k % 2) * 22 + Math.sin(k / 1.6) * 10}px`;
+        s.style.setProperty("--r", `${78 + (k % 2 ? 8 : -8)}deg`);
+        tracks.append(s);
+      }
+    }
   }
 
-  /* ---------- Topographic contours behind the hero ---------- */
-  function drawTopo() {
-    const canvas = $("#topo");
+  /* ---------- Speed lines behind the splash ---------- */
+  function drawSpeedlines() {
+    const canvas = $("#speedlines");
     if (!canvas || !canvas.getContext) return;
     const draw = () => {
       const r = canvas.getBoundingClientRect();
+      if (!r.width) return;
       const dpr = Math.min(window.devicePixelRatio || 1, 2);
       canvas.width = Math.round(r.width * dpr);
       canvas.height = Math.round(r.height * dpr);
       const ctx = canvas.getContext("2d");
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       ctx.clearRect(0, 0, r.width, r.height);
-      const color = getComputedStyle(document.documentElement).getPropertyValue("--contour").trim();
-      // Fixed seed so the map is the same on every visit.
+      const color = getComputedStyle(document.documentElement).getPropertyValue("--lines").trim();
+      // Fixed seed so the burst is the same on every visit.
       let seed = 1993;
-      const rand = () => ((seed = (seed * 16807) % 2147483647) / 2147483647);
-      const peaks = [
-        [0.78, 0.3, 1],
-        [0.95, 0.85, 0.7],
-        [0.55, 0.95, 0.5],
-      ];
-      for (const [px, py, scale] of peaks) {
-        const cx = px * r.width;
-        const cy = py * r.height;
-        const phase = rand() * Math.PI * 2;
-        for (let ring = 1; ring <= 16; ring++) {
-          const base = ring * 26 * scale;
-          ctx.beginPath();
-          for (let a = 0; a <= Math.PI * 2 + 0.01; a += Math.PI / 90) {
-            const wobble =
-              1 +
-              0.16 * Math.sin(3 * a + phase + ring * 0.21) +
-              0.09 * Math.sin(5 * a - phase * 1.7 + ring * 0.13) +
-              0.05 * Math.sin(9 * a + ring * 0.4);
-            const x = cx + Math.cos(a) * base * wobble * 1.25;
-            const y = cy + Math.sin(a) * base * wobble * 0.85;
-            a === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
-          }
-          ctx.strokeStyle = color;
-          ctx.lineWidth = ring % 5 === 0 ? 1.4 : 0.8;
-          ctx.stroke();
-        }
+      const rand = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+      const cx = r.width * 0.72;
+      const cy = r.height * 0.42;
+      const far = Math.hypot(r.width, r.height);
+      const inner = Math.min(r.width, r.height) * 0.3;
+      ctx.fillStyle = color;
+      for (let k = 0; k < 150; k++) {
+        const a = rand() * Math.PI * 2;
+        const start = inner * (0.8 + rand() * 0.9);
+        const w = 0.004 + rand() * 0.018;
+        ctx.beginPath();
+        ctx.moveTo(cx + Math.cos(a) * start, cy + Math.sin(a) * start);
+        ctx.lineTo(cx + Math.cos(a - w) * far, cy + Math.sin(a - w) * far);
+        ctx.lineTo(cx + Math.cos(a + w) * far, cy + Math.sin(a + w) * far);
+        ctx.closePath();
+        ctx.fill();
       }
     };
     draw();
@@ -327,6 +351,6 @@
   renderSkills();
   renderOffClock();
   renderFooter();
-  drawTopo();
+  drawSpeedlines();
   initModal();
 })();
