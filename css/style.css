@@ -15,7 +15,7 @@
   --speck: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 2.2 0 0 0 -1.15'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   --grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1.6 0 0 0 -0.75'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 
-  --display: "Anton", "Impact", "Arial Narrow Bold", sans-serif;
+  --display: "Sedgwick Ave Display", "Permanent Marker", "Impact", sans-serif;
   --letter: "Patrick Hand SC", "Comic Sans MS", "Segoe Print", cursive;
   --body: "Zen Kaku Gothic New", "Hiragino Sans", "Segoe UI", system-ui, sans-serif;
 
@@ -273,7 +273,7 @@ main,
   position: relative;
   font-family: var(--display);
   font-weight: 400;
-  font-size: clamp(4rem, 13vw, 10rem);
+  font-size: clamp(2.8rem, 12.5vw, 10rem);
   line-height: 0.95;
   letter-spacing: 0.005em;
   text-transform: uppercase;
