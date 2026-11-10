@@ -23,7 +23,7 @@ const SITE = {
   intro:
     "Six years in beverage alcohol distribution, now a Pricing Specialist at Reyes Beverage Group, " +
     "finishing an MBA in Business Analytics at UCF. At work I built the Python and Snowflake " +
-    "tool our pricing team runs every month. Outside work I build apps in Next.js and Supabase for fun.",
+    "tool our pricing team runs every month, plus two Alteryx workflows for supplier and chain pricing. Outside work I build apps in Next.js and Supabase for fun.",
   location: "Orlando, FL",
   availability: "MBA, Business Analytics, August 2027",
 
@@ -95,6 +95,32 @@ const SITE = {
         {
           title: "The constraint",
           text: "Data governance prohibits direct system writes, so the tool automates everything up to the controlled submission step and stops there. The code is internal and not public.",
+        },
+      ],
+    },
+    {
+      id: "alteryx-workflows",
+      title: "Alteryx Pricing Workflows",
+      category: "work",
+      status: "shipped",
+      year: "2026",
+      summary:
+        "Two Alteryx workflows: one builds a chain's cost file in under a minute instead of six hours, the other validates a supplier's price book and generates the upload forms.",
+      tags: ["Alteryx", "SQL", "Snowflake", "Excel"],
+      links: [],
+      image: "",
+      process: [
+        {
+          title: "Chain cost file",
+          text: "Extracts the pricing master, compares it against the chain's price file, surfaces every variance and outputs a corrected cost file for submission. Six hours of manual reconciliation across 400 SKUs became a single-click run of under a minute.",
+        },
+        {
+          title: "Supplier price book",
+          text: "Reconciles a 1,800-SKU supplier price book against internal records and generates the roughly 150 system upload forms each cycle needs. A multi-week process now takes about eight hours, with no transcription errors.",
+        },
+        {
+          title: "The constraint",
+          text: "Data governance prohibits direct system writes, so both workflows automate everything up to the controlled submission step and stop there.",
         },
       ],
     },
@@ -231,7 +257,7 @@ const SITE = {
   */
   roadmap: [
     { column: "now", title: "MBA, Business Analytics", note: "Evening classes at UCF, graduating August 2027." },
-    { column: "now", title: "Pricing Tool", note: "Logging the hours and errors it saves each cycle." },
+    { column: "now", title: "Pricing automation", note: "Logging the hours and errors the Pricing Tool and Alteryx workflows save each cycle." },
     { column: "now", title: "Drawing fundamentals", note: "Phase 1 of the curriculum, through February 2027." },
     { column: "next", title: "First YouTube upload", note: "Jurassic Park, Random Island: Part 1. Everything but the recording is done." },
     { column: "next", title: "Supply chain network redesign write-up", note: "An MBA case: a distribution network rebuilt around a disruption, profitable over 30 simulated days." },
