@@ -51,13 +51,13 @@ const SITE = {
       "Code started with the UCF Full Stack boot camp in 2024 and stuck. Now I build the tools I " +
         "actually want to use: a backlog and workout tracker, a private newsletter for my family, and a " +
         "character builder for the tabletop games I run. Away from the keyboard I am working through a " +
-        "structured drawing curriculum and writing a webcomic.",
+        "structured drawing curriculum.",
     ],
     skills: {
       "Pricing & Analytics": ["Alteryx Designer", "SQL", "Snowflake", "Excel (advanced)", "Power BI"],
       Code: ["TypeScript", "JavaScript", "Python", "React", "Next.js", "Supabase / Postgres", "Vite"],
       Tools: ["Git", "Vercel", "GitHub Pages", "Salesforce", "Claude Code"],
-      Creative: ["Drawing", "Comics", "Tabletop game design"],
+      Creative: ["Drawing", "Tabletop game design"],
     },
   },
 
@@ -195,50 +195,6 @@ const SITE = {
       ],
     },
     {
-      id: "scm-autostop",
-      title: "SCM Globe Auto-Stop",
-      category: "code",
-      status: "shipped",
-      year: "2026",
-      summary:
-        "A small userscript for an MBA supply chain course that stops the SCM Globe simulation on exactly the target day, so nobody has to babysit the run.",
-      tags: ["JavaScript", "Userscript"],
-      links: [],
-      image: "",
-      process: [
-        {
-          title: "Problem",
-          text: "Every assignment required stopping a simulation at exactly day 30, which meant watching a counter and clicking at the right moment.",
-        },
-        {
-          title: "Build",
-          text: "A userscript that watches the day counter and clicks Stop when it reaches the target day (30 by default).",
-        },
-      ],
-    },
-    {
-      id: "hel-is-home",
-      title: "Hel is Home",
-      category: "art",
-      status: "active",
-      year: "2026",
-      summary:
-        "A romantic comedy webcomic about monster hunting. A secret monster hunter who never stops taking care of everyone else meets the one librarian who notices nobody is taking care of her.",
-      tags: ["Webcomic", "Writing", "Illustration"],
-      links: [],
-      image: "",
-      process: [
-        {
-          title: "Where it is",
-          text: "Working title. The story bible is written (characters, world rules, locations, recurring motifs) and the first three strips are scripted.",
-        },
-        {
-          title: "Next",
-          text: "Drawing. The art curriculum below is what gets the pages made.",
-        },
-      ],
-    },
-    {
       id: "drawing-curriculum",
       title: "Learning to Draw, Properly",
       category: "art",
@@ -264,28 +220,6 @@ const SITE = {
         },
       ],
     },
-    {
-      id: "this-site",
-      title: "This Portfolio",
-      category: "code",
-      status: "shipped",
-      year: "2026",
-      summary:
-        "The site you are looking at. A dependency-free static site driven by a single content file.",
-      tags: ["HTML", "CSS", "JavaScript", "GitHub Pages"],
-      links: [{ label: "Source", url: "https://github.com/FrattiJ/Portfolio" }],
-      image: "",
-      process: [
-        {
-          title: "Goal",
-          text: "One place that answers \"who is FrattiJ?\": code, resume, videos and art, plus what is coming next.",
-        },
-        {
-          title: "Approach",
-          text: "No framework and no build step. All content lives in js/content.js and the page renders itself from it, so updating the site is editing a list.",
-        },
-      ],
-    },
   ],
 
   /* ---------- Roadmap: what you plan to do ----------
@@ -296,7 +230,6 @@ const SITE = {
     { column: "now", title: "Pricing automation", note: "Logging hours and errors saved by every tool that ships." },
     { column: "now", title: "Drawing fundamentals", note: "Phase 1 of the curriculum, through February 2027." },
     { column: "next", title: "First YouTube upload", note: "Jurassic Park, Random Island: Part 1. Everything but the recording is done." },
-    { column: "next", title: "Hel is Home, first strips", note: "Three are scripted. Drawing starts once the fundamentals hold up." },
     { column: "next", title: "Supply chain network redesign write-up", note: "An MBA case: a distribution network rebuilt around a disruption, profitable over 30 simulated days." },
     { column: "later", title: "Lead a pricing function", note: "Senior pricing or revenue management after graduation, then owning the function." },
   ],
