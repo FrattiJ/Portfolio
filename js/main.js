@@ -107,7 +107,7 @@
       (g.paragraphs || []).length || (g.points || []).length
         ? h(
             "aside",
-            { class: "goals frame" },
+            { class: "goals" },
             h("h3", {}, g.heading || "What I am looking for"),
             (g.paragraphs || []).map((p) => h("p", {}, p)),
             (g.points || []).length ? h("ul", {}, g.points.map((p) => h("li", {}, p))) : null
@@ -172,7 +172,7 @@
   function projectCard(p) {
     return h(
       "article",
-      { class: "entry frame" },
+      { class: "entry" },
       h("h3", {}, p.title),
       h("div", { class: "entry-meta" }, h("span", {}, p.year), statusPill(p.status)),
       h("p", {}, p.summary),
@@ -244,6 +244,76 @@
   }
 
   /* ---------- Footer ---------- */
+  /* ---------- Off the clock ---------- */
+  function renderOffClock() {
+    const o = SITE.offClock;
+    const body = $("#offClockBody");
+    if (!o || !(o.items || []).length) {
+      body.closest("section").remove();
+      const link = document.querySelector('.nav a[href="#off-the-clock"]');
+      if (link) link.remove();
+      return;
+    }
+    body.append(
+      h("dl", { class: "offclock" }, o.items.map((x) => h("div", {}, h("dt", {}, x.label), h("dd", {}, x.text)))),
+      has(o.note) ? h("p", { class: "group-note" }, o.note) : null
+    );
+  }
+
+  /* ---------- Topographic contours behind the hero ---------- */
+  function drawTopo() {
+    const canvas = $("#topo");
+    if (!canvas || !canvas.getContext) return;
+    const draw = () => {
+      const r = canvas.getBoundingClientRect();
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      canvas.width = Math.round(r.width * dpr);
+      canvas.height = Math.round(r.height * dpr);
+      const ctx = canvas.getContext("2d");
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      ctx.clearRect(0, 0, r.width, r.height);
+      const color = getComputedStyle(document.documentElement).getPropertyValue("--contour").trim();
+      // Fixed seed so the map is the same on every visit.
+      let seed = 1993;
+      const rand = () => ((seed = (seed * 16807) % 2147483647) / 2147483647);
+      const peaks = [
+        [0.78, 0.3, 1],
+        [0.95, 0.85, 0.7],
+        [0.55, 0.95, 0.5],
+      ];
+      for (const [px, py, scale] of peaks) {
+        const cx = px * r.width;
+        const cy = py * r.height;
+        const phase = rand() * Math.PI * 2;
+        for (let ring = 1; ring <= 16; ring++) {
+          const base = ring * 26 * scale;
+          ctx.beginPath();
+          for (let a = 0; a <= Math.PI * 2 + 0.01; a += Math.PI / 90) {
+            const wobble =
+              1 +
+              0.16 * Math.sin(3 * a + phase + ring * 0.21) +
+              0.09 * Math.sin(5 * a - phase * 1.7 + ring * 0.13) +
+              0.05 * Math.sin(9 * a + ring * 0.4);
+            const x = cx + Math.cos(a) * base * wobble * 1.25;
+            const y = cy + Math.sin(a) * base * wobble * 0.85;
+            a === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+          }
+          ctx.strokeStyle = color;
+          ctx.lineWidth = ring % 5 === 0 ? 1.4 : 0.8;
+          ctx.stroke();
+        }
+      }
+    };
+    draw();
+    let t;
+    window.addEventListener("resize", () => {
+      clearTimeout(t);
+      t = setTimeout(draw, 150);
+    });
+    matchMedia("(prefers-color-scheme: dark)").addEventListener("change", draw);
+    new MutationObserver(draw).observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
+  }
+
   function renderFooter() {
     $("#footerText").textContent = `© ${new Date().getFullYear()} ${SITE.name}`;
     $("#footerLinks").append(...visibleLinks(SITE.links).map((l) => h("a", linkAttrs(l.url), l.label)));
@@ -255,6 +325,8 @@
   renderExperience();
   renderProjects();
   renderSkills();
+  renderOffClock();
   renderFooter();
+  drawTopo();
   initModal();
 })();

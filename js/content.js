@@ -232,6 +232,21 @@ const SITE = {
     },
   ],
 
+  /* ---------- Off the clock ----------
+     Real favorites, straight from my Hobbylog ratings.
+  */
+  offClock: {
+    note: "Pulled from my own Hobbylog: 242 entries, 134 of them rated.",
+    items: [
+      { label: "Dinosaurs, first and always", text: "Jurassic Park, The Lost World and Jurassic Park III are all rated 10. So are both Crichton novels." },
+      { label: "Favorite manga", text: "Dorohedoro. A 10, and the favorite of all time." },
+      { label: "In my ears", text: "Will Wight's Cradle series on audiobook. Twelve volumes, every one a 10." },
+      { label: "Book and film", text: "Project Hail Mary. A 10 both ways." },
+      { label: "At the table", text: "Running tabletop games, including a sci-fi one-shot I built the character builder for." },
+      { label: "Saturday nights", text: "Volleyball." },
+    ],
+  },
+
   /* ---------- Skills ---------- */
   skills: {
     "Pricing and analysis": ["Product costing", "Price reconciliation", "Variance analysis", "KPI reporting", "Demand forecasting"],
