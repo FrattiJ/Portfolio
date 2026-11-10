@@ -281,17 +281,6 @@
     );
     select(0);
 
-    // A trail of tracks walking across the top of the section.
-    const tracks = document.querySelector(".tracks");
-    if (tracks) {
-      for (let k = 0; k < 9; k++) {
-        const s = h("span");
-        s.style.left = `${4 + k * 11}%`;
-        s.style.top = `${18 + (k % 2) * 22 + Math.sin(k / 1.6) * 10}px`;
-        s.style.setProperty("--r", `${78 + (k % 2 ? 8 : -8)}deg`);
-        tracks.append(s);
-      }
-    }
   }
 
   /* ---------- Speed lines behind the splash ---------- */

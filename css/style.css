@@ -1,6 +1,6 @@
 /* Layout: a gritty seinen manga chapter. Black ink on newsprint, no colour at all.
    Hand-ruled panel borders that wobble, solid blacks scratched with hatching, dense grey
-   screentone, paper grain over everything, and hand lettering in the bubbles and captions.
+   screentone, paper grain over everything, and hand lettering in the captions.
    Dark mode is the same page printed in negative. */
 :root {
   --paper: #e9e8e3;
@@ -15,7 +15,7 @@
   --speck: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 2.2 0 0 0 -1.15'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   --grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1.6 0 0 0 -0.75'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 
-  --display: "Rubik Dirt", "Impact", "Arial Black", sans-serif;
+  --display: "Anton", "Impact", "Arial Narrow Bold", sans-serif;
   --letter: "Patrick Hand SC", "Comic Sans MS", "Segoe Print", cursive;
   --body: "Zen Kaku Gothic New", "Hiragino Sans", "Segoe UI", system-ui, sans-serif;
 
@@ -24,7 +24,6 @@
   --measure: 64ch;
   --page: 72rem;
 
-  --track: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cg fill='black'%3E%3Cpath d='M12 0.5C13.4 3 14.1 7 13.7 11L12 14.6L10.3 11C9.9 7 10.6 3 12 0.5Z'/%3E%3Cpath d='M2 4.5C4.8 5.6 8.6 9 10.7 12.6L9.7 15.6C7 13.2 3.9 9.4 2 4.5Z'/%3E%3Cpath d='M22 4.5C19.2 5.6 15.4 9 13.3 12.6L14.3 15.6C17 13.2 20.1 9.4 22 4.5Z'/%3E%3Cellipse cx='12' cy='17.6' rx='3.6' ry='3.3'/%3E%3C/g%3E%3C/svg%3E");
   color-scheme: light;
 }
 
@@ -151,8 +150,6 @@ main,
 /* ---------- Hand-ruled borders ----------
    The border lives on a pseudo-element run through an SVG wobble, so the line looks
    inked by hand while the text inside stays crisp. */
-.splash,
-.inset,
 .proof,
 .facts div,
 .timeline article,
@@ -168,8 +165,6 @@ main,
   position: relative;
   isolation: isolate;
 }
-.splash::before,
-.inset::before,
 .proof::before,
 .facts div::before,
 .timeline article::before,
@@ -228,15 +223,6 @@ main,
   letter-spacing: 0.02em;
   white-space: nowrap;
 }
-.brand::before {
-  content: "";
-  width: 22px;
-  height: 22px;
-  background: var(--on-ink);
-  -webkit-mask: var(--track) center / contain no-repeat;
-  mask: var(--track) center / contain no-repeat;
-  transform: rotate(-14deg);
-}
 .nav nav {
   display: flex;
   gap: 22px;
@@ -262,63 +248,16 @@ main,
   flex: none;
 }
 
-/* ---------- Splash page ---------- */
+/* ---------- Title page ----------
+   No box: the name sits straight on the paper, underlined with one hand-ruled stroke. */
 .splash {
-  margin-top: 2rem;
-  padding: 2.5rem clamp(1.25rem, 4vw, 3rem);
+  padding: 4.5rem 0 1rem;
   display: grid;
-  grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
-  grid-template-areas:
-    "text inset"
-    "foot foot";
   gap: 2rem;
-  background-color: var(--ink);
-  background-image: repeating-linear-gradient(118deg, var(--scratch) 0 1px, transparent 1px 6px),
-    repeating-linear-gradient(28deg, var(--scratch) 0 1px, transparent 1px 11px);
-  color: var(--on-ink);
-}
-.splash::before {
-  border-width: 5px;
-  filter: url(#rougher);
 }
 .splash-text {
-  grid-area: text;
-  position: relative;
-  z-index: 2;
-}
-.inset {
-  grid-area: inset;
-  align-self: stretch;
-  min-height: 20rem;
-  background-color: var(--tone);
-  background-image: radial-gradient(var(--tone-dot) 1px, transparent 1.3px);
-  background-size: 4px 4px;
-  transform: rotate(2.5deg);
-  overflow: hidden;
-}
-.inset::before {
-  border-color: var(--panel);
-  border-width: 5px;
-}
-.stamp {
-  position: absolute;
-  inset: 6% 4%;
-  background-color: var(--ink);
-  background-image: var(--speck), repeating-linear-gradient(118deg, var(--scratch) 0 1px, transparent 1px 5px);
-  -webkit-mask: var(--track) center / contain no-repeat;
-  mask: var(--track) center / contain no-repeat;
-  transform: rotate(-16deg);
-  filter: url(#rougher);
-}
-.splash-foot {
-  grid-area: foot;
-  position: relative;
-  z-index: 2;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: 1.25rem;
+  display: grid;
+  justify-items: start;
 }
 .caption-box {
   display: inline-block;
@@ -328,57 +267,45 @@ main,
   font-size: 1.2rem;
   line-height: 1.3;
   padding: 4px 14px 2px;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.25rem;
 }
 .splash h1 {
+  position: relative;
   font-family: var(--display);
   font-weight: 400;
-  font-size: clamp(3.6rem, 11.5vw, 8.5rem);
-  line-height: 0.9;
-  letter-spacing: 0.01em;
-  display: grid;
-  justify-items: start;
-  color: var(--on-ink);
-}
-.splash h1 span:last-child {
-  margin-left: clamp(1rem, 5vw, 4rem);
-}
-
-/* Speech bubble: an inked oval with a tail, hand lettered. */
-.bubble {
-  position: relative;
-  isolation: isolate;
-  display: inline-block;
-  max-width: 26rem;
-  margin-top: 1.75rem;
-  margin-left: clamp(0rem, 8vw, 7rem);
-  padding: 1.1rem 1.8rem;
+  font-size: clamp(4rem, 13vw, 10rem);
+  line-height: 0.95;
+  letter-spacing: 0.005em;
+  text-transform: uppercase;
   color: var(--ink);
+  padding-bottom: 0.18em;
+}
+.splash h1 span + span {
+  margin-left: 0.22em;
+}
+.splash h1::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 9px;
+  background-color: var(--ink);
+  filter: url(#rougher);
+}
+.lede {
+  margin-top: 1.5rem;
+  max-width: 34ch;
   font-family: var(--letter);
-  font-size: clamp(1.25rem, 2.2vw, 1.5rem);
-  line-height: 1.25;
-  text-align: center;
+  font-size: clamp(1.45rem, 2.8vw, 2rem);
+  line-height: 1.2;
 }
-.bubble::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: var(--panel);
-  border: var(--stroke) solid var(--ink);
-  border-radius: 50%;
-  filter: url(#rough);
-  z-index: -1;
-}
-.bubble::after {
-  content: "";
-  position: absolute;
-  left: 22%;
-  top: -18px;
-  width: 22px;
-  height: 26px;
-  background: var(--panel);
-  clip-path: polygon(0 100%, 100% 100%, 20% 0);
-  z-index: -1;
+.splash-foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1.25rem;
 }
 
 /* Narration box. */
@@ -411,13 +338,8 @@ main,
   transform: rotate(-2deg) scale(1.03);
 }
 .btn.primary {
-  background: var(--panel);
-  color: var(--ink);
-  text-decoration: underline;
-  text-decoration-thickness: 2px;
-}
-.splash .btn::before {
-  border-color: var(--ink);
+  background: var(--ink);
+  color: var(--on-ink);
 }
 
 /* ---------- The strip: before / after ---------- */
@@ -544,10 +466,11 @@ main,
   isolation: isolate;
   font-family: var(--display);
   font-weight: 400;
-  font-size: clamp(2.6rem, 7vw, 4.6rem);
+  font-size: clamp(2.6rem, 7vw, 4.4rem);
   line-height: 1;
+  text-transform: uppercase;
   color: var(--on-ink);
-  padding: 0.9rem 1.4rem 0.7rem;
+  padding: 0.6rem 1.3rem 0.55rem;
   margin-bottom: 2rem;
   transform: rotate(-1.5deg);
 }
@@ -611,14 +534,12 @@ main,
 .goals li::before {
   content: "";
   position: absolute;
-  left: 0;
-  top: 0.3em;
-  width: 16px;
-  height: 16px;
+  left: 0.2rem;
+  top: 0.55em;
+  width: 9px;
+  height: 9px;
   background: var(--ink);
-  -webkit-mask: var(--track) center / contain no-repeat;
-  mask: var(--track) center / contain no-repeat;
-  transform: rotate(80deg);
+  transform: rotate(45deg);
 }
 
 /* ---------- Experience: a strip of panels ---------- */
@@ -816,25 +737,8 @@ main,
 /* ---------- Off the clock: the fan ---------- */
 .offclock-chapter {
   position: relative;
-  padding-top: 6rem;
+  padding-top: 5rem;
   text-align: center;
-}
-.tracks {
-  position: absolute;
-  inset: 1rem 0 auto;
-  height: 4rem;
-  pointer-events: none;
-}
-.tracks span {
-  position: absolute;
-  width: 24px;
-  height: 24px;
-  background: var(--ink);
-  opacity: 0.7;
-  -webkit-mask: var(--track) center / contain no-repeat;
-  mask: var(--track) center / contain no-repeat;
-  transform: rotate(var(--r));
-  filter: url(#rough);
 }
 .fan {
   --card-w: 190px;
@@ -932,6 +836,7 @@ main,
 .fan-heading {
   font-family: var(--display);
   font-weight: 400;
+  text-transform: uppercase;
   font-size: clamp(3rem, 10vw, 6.8rem);
   line-height: 1;
   position: relative;
@@ -1066,15 +971,6 @@ dialog::backdrop {
   }
 }
 @media (max-width: 860px) {
-  .splash {
-    grid-template-columns: minmax(0, 1fr);
-    grid-template-areas:
-      "text"
-      "foot";
-  }
-  .inset {
-    display: none;
-  }
   .about,
   .split-chapter {
     grid-template-columns: minmax(0, 1fr);
@@ -1145,10 +1041,7 @@ dialog::backdrop {
     font-size: 1.1rem;
   }
   .splash {
-    padding: 1.5rem 1.1rem;
-  }
-  .bubble {
-    margin-left: 0;
+    padding-top: 2.5rem;
   }
   .bar-row {
     grid-template-columns: minmax(0, 1fr) auto;
