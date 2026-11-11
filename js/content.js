@@ -227,7 +227,7 @@ const SITE = {
   ],
 
   /* ---------- Off the clock: a shelf of books, one per interest ----------
-     spine: the word on the spine (keep it short). color: "pink" | "teal" | "yellow" | "bone".
+     spine: the word on the spine (keep it short). color: "accent" (the palette's spot colour) | "ink" | "paper" | "grey".
      Opening a book shows heading, then text, then list. text, list and link are each optional.
      A list line is either "Title" or { title: "Title", note: "a line about it" }.
      link.url can point at a project write-up, e.g. "#project/dead-in-the-water".
@@ -239,7 +239,7 @@ const SITE = {
       {
         id: "manga",
         spine: "Manga",
-        color: "pink",
+        color: "accent",
         heading: "My favorite manga",
         text: "Next on the pile: Dandadan, Haikyu!! and Kagurabachi. The ones that already earned their spot:",
         list: [
@@ -253,7 +253,7 @@ const SITE = {
       {
         id: "art",
         spine: "Art",
-        color: "teal",
+        color: "ink",
         heading: "Teaching myself character art",
         text:
           "I built my own art curriculum and I am working through it in a sketchbook, two sessions a " +
@@ -269,7 +269,7 @@ const SITE = {
       {
         id: "audiobooks",
         spine: "Audiobooks",
-        color: "bone",
+        color: "paper",
         heading: "Almost nothing in print",
         text: "Most of my reading happens through headphones. The ones I rate highest:",
         list: [
@@ -283,7 +283,7 @@ const SITE = {
       {
         id: "tabletop",
         spine: "Tabletop",
-        color: "yellow",
+        color: "grey",
         heading: "Running the table",
         text:
           "I play D&D and I run it too. Dead in the Water is my sci-fi one-shot: three players, about " +

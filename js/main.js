@@ -461,7 +461,7 @@
       h(
         "button",
         {
-          class: `book ink-${b.color || "pink"}`,
+          class: `book ink-${b.color || "accent"}`,
           type: "button",
           style: `--h:${spineHeight(b.spine)}px`,
           "aria-expanded": "false",
@@ -492,7 +492,7 @@
       const no = `Vol. ${String(i + 1).padStart(2, "0")}`;
       return h(
         "article",
-        { class: `tome ink-${b.color || "pink"}`, "aria-labelledby": titleId },
+        { class: `tome ink-${b.color || "accent"}`, "aria-labelledby": titleId },
         h(
           "div",
           { class: "tome-cover", "aria-hidden": "true" },

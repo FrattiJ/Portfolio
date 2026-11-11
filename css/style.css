@@ -1205,21 +1205,23 @@ button {
 }
 
 /* ---------- Off the clock: a shelf of spines, and the book you pulled out ---------- */
-#offclock .chapter h2 {
-  --swash: var(--teal);
+/* Book colours. Every palette has one spot colour, so a book is the accent, solid ink, bare paper
+   or grey: --c is the cloth, --k is what is printed on it. */
+.ink-accent {
+  --c: var(--accent);
+  --k: var(--on-accent);
 }
-.ink-pink {
-  --c: var(--pink);
+.ink-ink {
+  --c: var(--line);
+  --k: var(--ground);
 }
-.ink-teal {
-  --c: var(--teal);
+.ink-paper {
+  --c: var(--panel);
+  --k: var(--line);
 }
-.ink-yellow {
-  --c: var(--yellow);
-}
-.ink-bone {
-  --c: var(--bone);
-  --shadow: var(--cast);
+.ink-grey {
+  --c: var(--grey);
+  --k: #000;
 }
 .bookcase {
   display: grid;
@@ -1245,7 +1247,7 @@ button {
   top: 100%;
   height: 12px;
   background: var(--line);
-  box-shadow: 7px 7px 0 var(--teal);
+  box-shadow: 7px 7px 0 var(--accent);
 }
 .book {
   position: relative;
@@ -1285,9 +1287,9 @@ button {
   align-items: center;
   gap: 12px;
   padding: 10px 0 12px;
-  border: var(--rule) solid #000;
+  border: var(--rule) solid var(--line);
   background: var(--c);
-  color: #000;
+  color: var(--k);
 }
 .book-spine::after,
 .filler::after {
@@ -1297,12 +1299,12 @@ button {
   align-self: stretch;
   height: 13px;
   margin-top: auto;
-  border-block: var(--rule) solid #000;
+  border-block: var(--rule) solid var(--k);
 }
 .book-no {
   flex: none;
   padding: 0 6px 1px;
-  background: #000;
+  background: var(--k);
   color: var(--c);
   font-size: 0.8rem;
   font-weight: 800;
@@ -1323,10 +1325,10 @@ button {
   left: 100%;
   width: 124px;
   height: 100%;
-  border: var(--rule) solid #000;
+  border: var(--rule) solid var(--line);
   border-left: 0;
   background:
-    repeating-linear-gradient(-45deg, transparent 0 7px, rgb(0 0 0 / 0.5) 7px 9px),
+    repeating-linear-gradient(-45deg, transparent 0 7px, color-mix(in srgb, var(--k) 55%, transparent) 7px 9px),
     var(--c);
   transform-origin: 0 50%;
   transform: rotateY(90deg);
@@ -1421,7 +1423,7 @@ button {
   padding: clamp(18px, 5cqi, 30px);
   border: var(--rule) solid var(--line);
   background: var(--panel);
-  box-shadow: 9px 9px 0 var(--shadow, var(--c));
+  box-shadow: 9px 9px 0 var(--accent);
 }
 .tome-page > .hand {
   font-size: 2.6rem;
@@ -1456,7 +1458,7 @@ button {
 }
 .tome-link {
   font-weight: 800;
-  text-decoration-color: var(--c);
+  text-decoration-color: var(--accent);
   text-decoration-thickness: 4px;
   text-underline-offset: 4px;
 }
@@ -1498,22 +1500,22 @@ button {
   justify-content: space-between;
   gap: 16px;
   padding: clamp(16px, 5cqi, 28px);
-  border: var(--rule) solid #000;
+  border: var(--rule) solid var(--line);
   background-color: var(--c);
-  color: #000;
+  color: var(--k);
   overflow: hidden;
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
 }
 .tome-front {
   box-shadow: 9px 9px 0 var(--cast);
-  background-image: repeating-linear-gradient(-45deg, transparent 0 9px, rgb(0 0 0 / 0.16) 9px 11px);
+  background-image: repeating-linear-gradient(-45deg, transparent 0 9px, color-mix(in srgb, var(--k) 18%, transparent) 9px 11px);
 }
 .tome-inside {
   /* the endpaper: screentone dots */
   align-items: flex-end;
   text-align: right;
-  background-image: radial-gradient(rgb(0 0 0 / 0.3) 1.6px, transparent 2px);
+  background-image: radial-gradient(color-mix(in srgb, var(--k) 32%, transparent) 1.6px, transparent 2px);
   background-size: 9px 9px;
   box-shadow: -9px 9px 0 var(--line);
   transform: rotateY(180deg);
@@ -1526,7 +1528,7 @@ button {
 .tome-no {
   align-self: flex-start;
   padding: 1px 9px 2px;
-  background: #000;
+  background: var(--k);
   color: var(--c);
   font-weight: 800;
 }
