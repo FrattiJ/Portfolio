@@ -226,6 +226,45 @@ const SITE = {
     },
   ],
 
+  /* ---------- Off the clock: a shelf of books, one per interest ----------
+     spine: the word on the spine (keep it short). color: "pink" | "teal" | "yellow".
+     Opening a book shows heading, then text, then list. text, list and link are each optional.
+     link.url can point at a project write-up, e.g. "#project/dead-in-the-water".
+  */
+  offClock: {
+    heading: "Off the clock",
+    note: "Pull a book off the shelf.",
+    books: [
+      {
+        id: "manga",
+        spine: "Manga",
+        color: "pink",
+        heading: "My favorite manga",
+        text: "",
+        // TODO: replace these three lines with your real favorites. Add or remove lines freely.
+        list: ["TODO: first favorite", "TODO: second favorite", "TODO: third favorite"],
+      },
+      {
+        id: "art",
+        spine: "Art",
+        color: "teal",
+        heading: "Teaching myself character art",
+        text: "I built my own art curriculum and I am working through it, teaching myself character art.",
+      },
+      {
+        id: "tabletop",
+        spine: "Tabletop",
+        color: "yellow",
+        heading: "Running the table",
+        text:
+          "I run tabletop games for friends, including a sci-fi one-shot on a homebrew ruleset layered " +
+          "over D&D. Building characters by hand from two rulebooks was the slowest part of the night, " +
+          "so I wrote a character builder for it.",
+        link: { label: "Open the character builder write-up", url: "#project/dead-in-the-water" },
+      },
+    ],
+  },
+
   /* ---------- Skills ---------- */
   skills: {
     "Pricing and analysis": ["Product costing", "Price reconciliation", "Variance analysis", "KPI reporting", "Demand forecasting"],

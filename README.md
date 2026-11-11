@@ -1,6 +1,6 @@
 # Jacob Fratti, personal site
 
-A one-page professional site for the resume: who I am, what I am looking for, experience, projects, skills and education. It is drawn as a punk manga cover: brush lettering, manga focus lines, price-gun stickers for the headline numbers, panels for the roles, and a night spread of covers for the projects.
+A one-page professional site for the resume: who I am, what I am looking for, experience, projects, skills and education, plus a shelf of books for life outside work. It is drawn as a punk manga cover: brush lettering, manga focus lines, price-gun stickers for the headline numbers, panels for the roles, and a night spread of covers for the projects.
 
 Plain HTML, CSS, and JavaScript. No framework, no build step, no dependencies, no third-party requests.
 
@@ -15,6 +15,7 @@ Plain HTML, CSS, and JavaScript. No framework, no build step, no dependencies, n
 | Update About or career goals    | `about`, `goals`                                       |
 | Add a project                   | Copy an entry in `projects`, set its `group`           |
 | Update experience or education  | `resume.experience`, `resume.education`                |
+| Change the books on the shelf   | `offClock.books` (one book per interest)               |
 | Change the links                | `links` (the first link is the main button)            |
 
 Each project has a shareable link, e.g. `https://frattij.github.io/#project/pricing-tool` opens that write-up directly. Paper and night mode follow the visitor's system setting, with a toggle in the top bar. The Projects section stays dark in both.

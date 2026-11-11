@@ -386,6 +386,95 @@
     }
   }
 
+  /* ---------- Off the clock: spines on a shelf, and the book you pulled out ---------- */
+  function renderOffClock() {
+    const data = SITE.offClock || {};
+    const books = (data.books || []).filter((b) => has(b.spine));
+    const section = $("#offclock");
+    const navLink = document.querySelector('.sections a[href="#offclock"]');
+    if (!books.length) {
+      section.remove();
+      if (navLink) navLink.remove();
+      return;
+    }
+    section.hidden = false;
+    lettered($("#h-offclock"), data.heading || "Off the clock");
+    if (has(data.note)) $("#offclockNote").textContent = typo(data.note);
+    else $("#offclockNote").remove();
+
+    const rack = $("#rack");
+    const desk = $("#desk");
+    // a longer word needs a taller spine, which also keeps the row from looking like a fence
+    const spineHeight = (word) => Math.min(320, Math.max(190, 120 + [...word].length * 20));
+    // plain, unlettered books between the real ones, so the shelf reads as a shelf
+    const filler = (cls) => h("span", { class: `filler ${cls}`, "aria-hidden": "true" });
+    const FILLERS = [["thin"], ["lean wide"], ["short"], ["thin tall wide", "short wide"]];
+    let current = null;
+
+    const spines = books.map((b, i) =>
+      h(
+        "button",
+        {
+          class: `book ink-${b.color || "pink"}`,
+          type: "button",
+          style: `--h:${spineHeight(b.spine)}px`,
+          "aria-expanded": "false",
+          "aria-controls": "desk",
+          onclick: () => pick(i),
+        },
+        h(
+          "span",
+          { class: "book-box" },
+          h(
+            "span",
+            { class: "book-spine" },
+            h("span", { class: "book-no", "aria-hidden": "true" }, String(i + 1).padStart(2, "0")),
+            h("span", { class: "book-title" }, b.spine)
+          ),
+          h("span", { class: "book-side", "aria-hidden": "true" })
+        )
+      )
+    );
+    rack.append(
+      ...spines.flatMap((el, i) => [el, ...(FILLERS[i % FILLERS.length] || []).map(filler)])
+    );
+
+    const emptyDesk = () => h("p", { class: "hand desk-empty", "aria-hidden": "true" }, "Nothing out yet.");
+
+    function tome(b, i) {
+      const titleId = `tomeTitle-${i}`;
+      const no = `Vol. ${String(i + 1).padStart(2, "0")}`;
+      return h(
+        "article",
+        { class: `tome ink-${b.color || "pink"}`, "aria-labelledby": titleId },
+        h(
+          "div",
+          { class: "tome-cover", "aria-hidden": "true" },
+          h("div", { class: "tome-front" }, h("p", { class: "tome-no" }, no), h("p", { class: "tome-name" }, brush(b.spine))),
+          h("div", { class: "tome-inside" }, h("p", { class: "tome-name" }, brush(b.spine)), h("p", { class: "tome-no" }, no))
+        ),
+        h(
+          "div",
+          { class: "tome-page" },
+          h("h3", { class: "hand", id: titleId }, b.heading || b.spine),
+          has(b.text) ? h("p", {}, b.text) : null,
+          (b.list || []).length ? h("ol", { class: "tome-list" }, b.list.map((t) => h("li", {}, t))) : null,
+          b.link && has(b.link.url)
+            ? h("p", {}, h("a", { class: "tome-link", ...linkAttrs(b.link.url) }, b.link.label, newTabNote(b.link.url)))
+            : null,
+          h("button", { class: "tome-back", type: "button", onclick: () => { pick(i); spines[i].focus(); } }, "Put it back")
+        )
+      );
+    }
+
+    function pick(i) {
+      current = current === i ? null : i;
+      spines.forEach((el, n) => el.setAttribute("aria-expanded", String(n === current)));
+      desk.replaceChildren(current === null ? emptyDesk() : tome(books[current], current));
+    }
+    desk.append(emptyDesk());
+  }
+
   /* ---------- Footer ---------- */
   function renderFooter() {
     $("#footerText").textContent = `© ${new Date().getFullYear()} ${SITE.name}`;
@@ -419,6 +508,7 @@
   renderExperience();
   renderProjects();
   renderSkills();
+  renderOffClock();
   renderFooter();
   initReader();
   initSectionMarker();
