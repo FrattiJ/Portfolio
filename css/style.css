@@ -1229,19 +1229,6 @@ button {
   gap: clamp(36px, 5vw, 56px);
   align-items: start;
 }
-/* Beside the open book, the shelf stays in view while you read, so the next book is one click away. */
-@media (min-width: 900px) {
-  .rack {
-    position: sticky;
-    top: calc(var(--bar) + 28px);
-  }
-  .filler.wide {
-    display: none;
-  }
-  .desk-empty {
-    min-height: 300px;
-  }
-}
 .rack {
   position: relative;
   display: flex;
@@ -1400,6 +1387,20 @@ button {
   margin-left: 31px;
   transform-origin: 100% 100%;
   transform: rotate(-10deg);
+}
+
+/* Beside the open book, the shelf stays in view while you read, so the next book is one click away. */
+@media (min-width: 900px) {
+  .rack {
+    position: sticky;
+    top: calc(var(--bar) + 28px);
+  }
+  .filler.wide {
+    display: none;
+  }
+  .desk > .desk-empty {
+    min-height: 300px;
+  }
 }
 
 .desk {
