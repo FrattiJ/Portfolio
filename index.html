@@ -2,90 +2,158 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Jacob Fratti</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>Jacob Fratti | Pricing and Analytics</title>
     <meta name="description" content="Jacob Fratti: pricing and analytics. Experience, projects, skills and education." />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap"
-      rel="stylesheet"
-    />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Jacob Fratti | Pricing and Analytics" />
+    <meta property="og:description" content="I build the automation that replaces manual pricing work, and I measure what it saves." />
+    <meta property="og:url" content="https://frattij.github.io/" />
+    <meta property="og:image" content="https://frattij.github.io/assets/share.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Jacob Fratti in brush lettering over manga focus lines, with four price stickers: 6 yrs, about 150 accounts, 6 hrs marked down to 1 min, and 1,800 SKUs." />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="color-scheme" content="light dark" />
+    <meta name="theme-color" content="#e6e7dd" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0b1a1b" media="(prefers-color-scheme: dark)" />
+    <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+    <link rel="preload" href="assets/fonts/Dracutaz.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="assets/fonts/MPLUS1-latin-wght.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="stylesheet" href="css/style.css" />
     <script>
-      // Apply saved theme before paint to avoid a flash.
-      try {
-        const t = localStorage.getItem("theme");
-        if (t) document.documentElement.dataset.theme = t;
-      } catch (e) {}
+      // Runs before first paint: apply the saved theme and arm the opening sequence.
+      (function () {
+        var root = document.documentElement;
+        try {
+          var t = localStorage.getItem("theme");
+          if (t === "light" || t === "dark") {
+            root.dataset.theme = t;
+            var c = t === "dark" ? "#0b1a1b" : "#e6e7dd";
+            document.querySelectorAll('meta[name="theme-color"]').forEach(function (m) {
+              m.setAttribute("content", c);
+            });
+          }
+        } catch (e) {}
+        root.classList.add("js");
+      })();
     </script>
   </head>
   <body>
     <a class="skip" href="#main">Skip to content</a>
 
-    <header class="nav">
-      <a class="brand" href="#top" id="brand"></a>
-      <nav aria-label="Sections">
+    <!-- Shared ink filters: rough brush edges and torn paper. Decorative only. -->
+    <svg class="defs" width="0" height="0" aria-hidden="true" focusable="false">
+      <defs>
+        <filter id="rough" x="-6%" y="-30%" width="112%" height="160%">
+          <feTurbulence type="fractalNoise" baseFrequency="0.028 0.11" numOctaves="2" seed="11" result="noise" />
+          <feDisplacementMap in="SourceGraphic" in2="noise" scale="9" xChannelSelector="R" yChannelSelector="G" />
+        </filter>
+        <filter id="tear" x="-2%" y="-80%" width="104%" height="260%">
+          <feTurbulence type="fractalNoise" baseFrequency="0.018 0.03" numOctaves="3" seed="4" result="noise" />
+          <feDisplacementMap in="SourceGraphic" in2="noise" scale="26" xChannelSelector="G" yChannelSelector="R" />
+        </filter>
+      </defs>
+    </svg>
+
+    <header class="top">
+      <a class="brand" href="#top" id="brand" translate="no"></a>
+      <nav class="sections" aria-label="Sections">
         <a href="#about">About</a>
         <a href="#experience">Experience</a>
         <a href="#projects">Projects</a>
         <a href="#skills">Skills</a>
       </nav>
-      <button class="theme-toggle" id="themeToggle" aria-label="Toggle color theme">
-        <span aria-hidden="true">&#9680;</span>
+      <button class="theme" id="themeToggle" type="button" aria-label="Night mode" aria-pressed="false" title="Night mode">
+        <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false">
+          <circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2.5" />
+          <path d="M12 3a9 9 0 0 1 0 18z" fill="currentColor" />
+        </svg>
       </button>
     </header>
 
     <main id="main">
-      <section class="hero" id="top">
-        <p class="eyebrow mono" id="heroEyebrow"></p>
-        <h1 id="heroName"></h1>
-        <p class="lede" id="heroTagline"></p>
-        <p class="intro" id="heroIntro"></p>
-        <div class="hero-links" id="heroLinks"></div>
-        <dl class="stats" id="heroStats"></dl>
+      <section class="hero" id="top" aria-labelledby="heroName">
+        <svg class="focus" id="focusLines" viewBox="0 0 1000 1000" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+          <path fill="currentColor" />
+        </svg>
+        <div class="wrap hero-grid">
+          <div class="hero-title">
+            <h1 id="heroName" translate="no"></h1>
+            <p class="cover-lines" id="heroMeta"></p>
+          </div>
+          <div class="caption">
+            <p class="lede" id="heroTagline"></p>
+            <p class="intro" id="heroIntro"></p>
+            <div class="links" id="heroLinks"></div>
+          </div>
+          <dl class="stickers" id="heroStats"></dl>
+        </div>
       </section>
 
-      <section id="about">
-        <div class="section-head">
-          <h2><span class="num mono">01</span> About</h2>
+      <section class="page" id="about" aria-labelledby="h-about">
+        <div class="wrap">
+          <header class="chapter">
+            <h2 id="h-about">About</h2>
+          </header>
+          <div class="about" id="aboutBody"></div>
         </div>
-        <div class="about" id="aboutBody"></div>
       </section>
 
-      <section id="experience">
-        <div class="section-head">
-          <h2><span class="num mono">02</span> Experience</h2>
+      <section class="page" id="experience" aria-labelledby="h-experience">
+        <div class="wrap">
+          <header class="chapter">
+            <h2 id="h-experience">Experience</h2>
+          </header>
+          <div class="panels" id="experienceBody"></div>
         </div>
-        <div class="resume" id="experienceBody"></div>
       </section>
 
-      <section id="projects">
-        <div class="section-head">
-          <h2><span class="num mono">03</span> Projects</h2>
-          <p>Select any card for the full write-up.</p>
+      <section class="page night" id="projects" aria-labelledby="h-projects">
+        <p class="sfx sfx-projects" lang="ja" aria-hidden="true">カタカタ</p>
+        <div class="wrap">
+          <header class="chapter">
+            <h2 id="h-projects">Projects</h2>
+            <p>Open any cover for the full write-up.</p>
+          </header>
+          <div id="projectGroups"></div>
         </div>
-        <div id="projectGroups"></div>
       </section>
 
-      <section id="skills">
-        <div class="section-head">
-          <h2><span class="num mono">04</span> Skills and education</h2>
-        </div>
-        <div class="split">
-          <div class="skills" id="skillsBody"></div>
-          <div class="resume" id="educationBody"></div>
+      <section class="page" id="skills" aria-labelledby="h-skills">
+        <div class="wrap">
+          <header class="chapter">
+            <h2 id="h-skills">Skills and education</h2>
+          </header>
+          <div class="split">
+            <div class="kit" id="skillsBody"></div>
+            <div class="school" id="educationBody"></div>
+          </div>
         </div>
       </section>
+
+      <noscript>
+        <p class="noscript">This page is built in the browser. Turn on JavaScript to read it.</p>
+      </noscript>
     </main>
 
-    <footer class="footer">
-      <p id="footerText"></p>
-      <div id="footerLinks"></div>
+    <footer class="colophon">
+      <div class="wrap colophon-in">
+        <p class="hand signoff">To be continued.</p>
+        <p id="footerText"></p>
+        <div class="colophon-links" id="footerLinks"></div>
+        <p class="credit">
+          Title lettering: Dracutaz by Dhabee Studio. Text: M PLUS 1. Notes: East Sea Dokdo.
+        </p>
+      </div>
     </footer>
 
-    <dialog class="modal" id="projectModal" aria-labelledby="modalTitle">
-      <button class="modal-close" id="modalClose" aria-label="Close">&times;</button>
+    <dialog class="reader" id="projectModal" aria-labelledby="modalTitle">
+      <button class="reader-close" id="modalClose" type="button" aria-label="Close">
+        <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false">
+          <path d="M5 5l14 14M19 5L5 19" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="square" />
+        </svg>
+      </button>
       <div id="modalBody"></div>
     </dialog>
 

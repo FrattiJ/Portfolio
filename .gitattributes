@@ -1,0 +1,2 @@
+# Third-party Claude Code skills: keep them out of the repository's language statistics.
+.claude/** linguist-vendored
