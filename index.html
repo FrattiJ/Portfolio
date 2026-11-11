@@ -27,13 +27,7 @@
         var root = document.documentElement;
         try {
           var t = localStorage.getItem("theme");
-          if (t === "light" || t === "dark") {
-            root.dataset.theme = t;
-            var c = t === "dark" ? "#0e0e0e" : "#e8e8e3";
-            document.querySelectorAll('meta[name="theme-color"]').forEach(function (m) {
-              m.setAttribute("content", c);
-            });
-          }
+          if (t && /^[a-z0-9]+$/.test(t)) root.dataset.theme = t;
         } catch (e) {}
         root.classList.add("js");
       })();
@@ -64,12 +58,17 @@
         <a href="#projects">Projects</a>
         <a href="#skills">Skills</a>
       </nav>
-      <button class="theme" id="themeToggle" type="button" aria-label="Night mode" aria-pressed="false" title="Night mode">
+      <button class="theme" id="paletteToggle" type="button" aria-label="Colour palette" aria-expanded="false" aria-controls="paletteMenu" title="Colour palette">
         <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false">
-          <circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2.5" />
-          <path d="M12 3a9 9 0 0 1 0 18z" fill="currentColor" />
+          <rect x="3" y="3" width="8" height="8" fill="currentColor" />
+          <rect x="13" y="3" width="8" height="8" fill="none" stroke="currentColor" stroke-width="2.5" />
+          <rect x="3" y="13" width="8" height="8" fill="none" stroke="currentColor" stroke-width="2.5" />
+          <rect x="13" y="13" width="8" height="8" fill="currentColor" />
         </svg>
       </button>
+      <fieldset class="palette-menu" id="paletteMenu" hidden>
+        <legend class="vh">Colour palette</legend>
+      </fieldset>
     </header>
 
     <main id="main">

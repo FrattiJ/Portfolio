@@ -78,27 +78,69 @@
     return el;
   };
 
-  /* ---------- Theme ---------- */
-  const THEME_COLOR = { light: "#e8e8e3", dark: "#0e0e0e" };
+  /* ---------- Palettes ----------
+     Each id matches a :root[data-theme="..."] block in css/style.css. ground and accent are repeated
+     here only to paint the swatches and the browser's theme colour. */
+  const PALETTES = [
+    { id: "light", name: "Ink", ground: "#e8e8e3", accent: "#d8121c" },
+    { id: "dark", name: "Night", ground: "#0e0e0e", accent: "#d8121c" },
+    { id: "v12", name: "Vol. 12", ground: "#5b9bd8", accent: "#f472a6" },
+    { id: "v14", name: "Vol. 14", ground: "#dcbf85", accent: "#2b9a4a" },
+    { id: "v11", name: "Vol. 11", ground: "#cf5f43", accent: "#d9d62b" },
+    { id: "v19", name: "Vol. 19", ground: "#f2a765", accent: "#7fbf3a" },
+    { id: "v18", name: "Vol. 18", ground: "#0b0b0b", accent: "#f0528f" },
+    { id: "v10", name: "Vol. 10", ground: "#3b2a78", accent: "#b89a3e" },
+  ];
   const systemDark = matchMedia("(prefers-color-scheme: dark)");
-  const activeTheme = () => root.dataset.theme || (systemDark.matches ? "dark" : "light");
+  const activePalette = () =>
+    PALETTES.find((p) => p.id === root.dataset.theme) || PALETTES[systemDark.matches ? 1 : 0];
 
-  function initTheme() {
-    const btn = $("#themeToggle");
-    const sync = () => btn.setAttribute("aria-pressed", String(activeTheme() === "dark"));
-    btn.addEventListener("click", () => {
-      const next = activeTheme() === "dark" ? "light" : "dark";
-      root.dataset.theme = next;
-      document
-        .querySelectorAll('meta[name="theme-color"]')
-        .forEach((m) => m.setAttribute("content", THEME_COLOR[next]));
+  function initPalettes() {
+    const btn = $("#paletteToggle");
+    const menu = $("#paletteMenu");
+    // a saved id that no longer exists falls back to the system setting
+    if (root.dataset.theme && !PALETTES.some((p) => p.id === root.dataset.theme)) delete root.dataset.theme;
+
+    const paint = () => {
+      const p = activePalette();
+      document.querySelectorAll('meta[name="theme-color"]').forEach((m) => m.setAttribute("content", p.ground));
+      menu.querySelectorAll("input").forEach((i) => (i.checked = i.value === p.id));
+    };
+    const choose = (id) => {
+      root.dataset.theme = id;
       try {
-        localStorage.setItem("theme", next);
+        localStorage.setItem("theme", id);
       } catch (e) {}
-      sync();
+      paint();
+    };
+    menu.append(
+      ...PALETTES.map((p) =>
+        h(
+          "label",
+          {},
+          h("input", { type: "radio", name: "palette", value: p.id, onchange: () => choose(p.id) }),
+          h("span", { class: "chip", style: `--g:${p.ground};--a:${p.accent}`, "aria-hidden": "true" }),
+          p.name
+        )
+      )
+    );
+    const setOpen = (open) => {
+      menu.hidden = !open;
+      btn.setAttribute("aria-expanded", String(open));
+      if (open) (menu.querySelector("input:checked") || menu.querySelector("input")).focus();
+    };
+    btn.addEventListener("click", () => setOpen(menu.hidden));
+    document.addEventListener("click", (e) => {
+      if (!menu.hidden && !menu.contains(e.target) && !btn.contains(e.target)) setOpen(false);
     });
-    systemDark.addEventListener("change", sync);
-    sync();
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && !menu.hidden) {
+        setOpen(false);
+        btn.focus();
+      }
+    });
+    systemDark.addEventListener("change", paint);
+    paint();
   }
 
   /* ---------- Hero ---------- */
@@ -413,7 +455,7 @@
     document.querySelectorAll("main > section[id]").forEach((s) => io.observe(s));
   }
 
-  initTheme();
+  initPalettes();
   renderHero();
   renderAbout();
   renderExperience();

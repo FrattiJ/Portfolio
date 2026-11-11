@@ -56,20 +56,26 @@
   --night-sheet: #1b1b1b;
   --bone: #ecece6;
   --grey: #c4c4bd;
-  /* the one spot colour. Change it here and the whole page follows. */
-  --accent: #d8121c;
-  --on-accent: #fff;
-  --spread: var(--night);
 
-  /* roles: these flip between the paper page and the night page */
+  --grain-ink: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='520' height='520'%3E%3Cfilter id='s'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.09' numOctaves='3' seed='9' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 16 -12.9'/%3E%3CfeComponentTransfer%3E%3CfeFuncA type='linear' slope='.38'/%3E%3C/feComponentTransfer%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23s)'/%3E%3C/svg%3E"),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .6 -.21'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  --grain-bone: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='520' height='520'%3E%3Cfilter id='s'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.09' numOctaves='3' seed='9' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 16 -12.9'/%3E%3CfeComponentTransfer%3E%3CfeFuncA type='linear' slope='.38'/%3E%3C/feComponentTransfer%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23s)'/%3E%3C/svg%3E"),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .5 -.2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+
+  /* roles: every palette below sets these */
   --ground: var(--paper);
   --panel: var(--sheet);
   --line: var(--ink);
   --soft: #333;
   --cast: var(--ink);
   --tone: rgb(0 0 0 / 0.22);
-  --grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='520' height='520'%3E%3Cfilter id='s'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.09' numOctaves='3' seed='9' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 16 -12.9'/%3E%3CfeComponentTransfer%3E%3CfeFuncA type='linear' slope='.38'/%3E%3C/feComponentTransfer%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23s)'/%3E%3C/svg%3E"),
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .6 -.21'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  --grain: var(--grain-ink);
+  --spread: var(--night);
+  --spread-panel: var(--night-sheet);
+  /* the one spot colour of the palette */
+  --accent: #d8121c;
+  --on-accent: #fff;
+
 
   /* type */
   --display: "Dracutaz", Impact, Haettenschweiler, "Arial Narrow Bold", "Arial Narrow", sans-serif;
@@ -86,40 +92,136 @@
   color-scheme: light;
 }
 
+/* ---------- Palettes ----------
+   "light" (Ink) and "dark" (Night) are the two house palettes; with nothing chosen the page follows
+   the visitor's system setting. The rest take their ground and lettering colour from Dorohedoro
+   covers. To add one: copy a block, pick an id, and list it in PALETTES in js/main.js. */
 @media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
+  :root:not([data-theme]) {
     --ground: var(--night);
     --panel: var(--night-sheet);
     --line: var(--bone);
     --soft: #b0b0aa;
     --cast: var(--accent);
-    --spread: #050505;
     --tone: rgb(236 236 230 / 0.17);
-    --grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='520' height='520'%3E%3Cfilter id='s'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.09' numOctaves='3' seed='9' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 16 -12.9'/%3E%3CfeComponentTransfer%3E%3CfeFuncA type='linear' slope='.38'/%3E%3C/feComponentTransfer%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23s)'/%3E%3C/svg%3E"),
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .5 -.2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    --grain: var(--grain-bone);
+    --spread: #050505;
+    --spread-panel: #161616;
     color-scheme: dark;
   }
 }
-:root[data-theme="dark"],
-.night {
+:root[data-theme="dark"] {
   --ground: var(--night);
   --panel: var(--night-sheet);
   --line: var(--bone);
   --soft: #b0b0aa;
   --cast: var(--accent);
   --tone: rgb(236 236 230 / 0.17);
-  --grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='520' height='520'%3E%3Cfilter id='s'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.09' numOctaves='3' seed='9' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 16 -12.9'/%3E%3CfeComponentTransfer%3E%3CfeFuncA type='linear' slope='.38'/%3E%3C/feComponentTransfer%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23s)'/%3E%3C/svg%3E"),
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .5 -.2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-}
-:root[data-theme="dark"] {
+  --grain: var(--grain-bone);
   --spread: #050505;
+  --spread-panel: #161616;
   color-scheme: dark;
 }
-:root[data-theme="light"] {
-  --spread: var(--night);
+/* Vol. 12: open sky, pink lettering */
+:root[data-theme="v12"] {
+  --ground: #5b9bd8;
+  --panel: #f2f6fa;
+  --line: #000;
+  --soft: #17212c;
+  --accent: #f472a6;
+  --on-accent: #000;
+  --spread: #0f2238;
+  --spread-panel: #183252;
+  --cast: #000;
+  --tone: rgb(0 0 0 / 0.22);
+  --grain: var(--grain-ink);
+  color-scheme: light;
 }
+/* Vol. 14: kraft paper, green lettering */
+:root[data-theme="v14"] {
+  --ground: #dcbf85;
+  --panel: #f7f0e0;
+  --line: #000;
+  --soft: #33291a;
+  --accent: #2b9a4a;
+  --on-accent: #000;
+  --spread: #1f1a10;
+  --spread-panel: #30281a;
+  --cast: #000;
+  --tone: rgb(0 0 0 / 0.22);
+  --grain: var(--grain-ink);
+  color-scheme: light;
+}
+/* Vol. 11: brick red, acid yellow lettering */
+:root[data-theme="v11"] {
+  --ground: #cf5f43;
+  --panel: #f8ece5;
+  --line: #000;
+  --soft: #1a0d09;
+  --accent: #d9d62b;
+  --on-accent: #000;
+  --spread: #2a0f0a;
+  --spread-panel: #3d1811;
+  --cast: #000;
+  --tone: rgb(0 0 0 / 0.22);
+  --grain: var(--grain-ink);
+  color-scheme: light;
+}
+/* Vol. 19: peach, lime lettering */
+:root[data-theme="v19"] {
+  --ground: #f2a765;
+  --panel: #fcf1e5;
+  --line: #000;
+  --soft: #33200f;
+  --accent: #7fbf3a;
+  --on-accent: #000;
+  --spread: #2b1a0c;
+  --spread-panel: #3d2715;
+  --cast: #000;
+  --tone: rgb(0 0 0 / 0.22);
+  --grain: var(--grain-ink);
+  color-scheme: light;
+}
+/* Vol. 18: black, hot pink lettering */
+:root[data-theme="v18"] {
+  --ground: #0b0b0b;
+  --panel: #1a1a1a;
+  --line: var(--bone);
+  --soft: #b0b0aa;
+  --accent: #f0528f;
+  --on-accent: #000;
+  --spread: #050505;
+  --spread-panel: #141414;
+  --cast: var(--accent);
+  --tone: rgb(236 236 230 / 0.17);
+  --grain: var(--grain-bone);
+  color-scheme: dark;
+}
+/* Vol. 10: deep violet, old gold lettering */
+:root[data-theme="v10"] {
+  --ground: #3b2a78;
+  --panel: #47358c;
+  --line: var(--bone);
+  --soft: #cfc8e6;
+  --accent: #b89a3e;
+  --on-accent: #000;
+  --spread: #1c1340;
+  --spread-panel: #2a1f58;
+  --cast: var(--accent);
+  --tone: rgb(236 236 230 / 0.17);
+  --grain: var(--grain-bone);
+  color-scheme: dark;
+}
+
+/* The Projects spread: always the dark side of the current palette */
 .night {
   --ground: var(--spread);
+  --panel: var(--spread-panel);
+  --line: var(--bone);
+  --soft: #b9b9b2;
+  --cast: var(--accent);
+  --tone: rgb(236 236 230 / 0.17);
+  --grain: var(--grain-bone);
 }
 
 /* ---------- Base ---------- */
@@ -381,8 +483,6 @@ button {
   background: var(--line);
   clip-path: polygon(2% 14%, 98% 3%, 100% 86%, 3% 97%);
   transform: scaleX(0);
-  transform-origin: left center;
-  transition: transform 120ms steps(3);
 }
 .sections a:hover,
 .sections a[aria-current] {
@@ -407,8 +507,58 @@ button {
 .theme:hover {
   transform: rotate(-12deg);
 }
-.theme[aria-pressed="true"] svg {
-  transform: scaleX(-1);
+.palette-menu {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: max(var(--gutter), env(safe-area-inset-right));
+  z-index: 40;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 4px;
+  width: min(320px, 100vw - 2 * var(--gutter));
+  margin: 0;
+  padding: 10px;
+  border: var(--rule) solid var(--line);
+  background: var(--panel);
+  box-shadow: 8px 8px 0 var(--cast);
+}
+.palette-menu[hidden] {
+  display: none;
+}
+.palette-menu label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 44px;
+  padding: 4px 8px;
+  font-size: 0.92rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+.palette-menu input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+.palette-menu .chip {
+  flex: none;
+  width: 30px;
+  height: 30px;
+  border: 2px solid var(--line);
+  background: linear-gradient(135deg, var(--g) 0 50%, var(--a) 50%);
+}
+.palette-menu label:hover,
+.palette-menu label:has(input:checked) {
+  background: var(--line);
+  color: var(--panel);
+}
+.palette-menu label:has(input:checked) .chip,
+.palette-menu label:hover .chip {
+  border-color: var(--panel);
+}
+.palette-menu label:has(input:focus-visible) {
+  outline: 3px solid var(--line);
+  outline-offset: 2px;
 }
 
 /* ---------- Hero: the cover ---------- */
@@ -1327,6 +1477,7 @@ button {
 /* ---------- Print: ink on white, no chrome ---------- */
 @media print {
   :root,
+  :root[data-theme],
   .night {
     --ground: #fff;
     --panel: #fff;
