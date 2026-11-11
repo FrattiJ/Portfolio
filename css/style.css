@@ -1072,17 +1072,22 @@ button {
 .ink-yellow {
   --c: var(--yellow);
 }
+.ink-bone {
+  --c: var(--bone);
+  --shadow: var(--cast);
+}
 .bookcase {
   display: grid;
-  grid-template-columns: auto minmax(0, 1fr);
-  gap: clamp(40px, 6vw, 80px);
-  align-items: start;
+  grid-template-columns: minmax(0, 1fr);
+  gap: clamp(36px, 5vw, 56px);
 }
 .rack {
   position: relative;
   display: flex;
   align-items: flex-end;
   gap: 5px;
+  width: fit-content;
+  max-width: 100%;
   margin-bottom: 21px;
   padding: 28px 16px 0 12px;
 }
@@ -1243,7 +1248,8 @@ button {
 .desk-empty {
   display: grid;
   place-items: center;
-  min-height: 320px;
+  max-width: 900px;
+  min-height: 120px;
   padding: 20px;
   border: var(--rule) dashed var(--line);
   color: var(--soft);
@@ -1255,6 +1261,7 @@ button {
   position: relative;
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  max-width: 900px;
   min-height: 360px;
   margin-right: 9px;
   perspective: 1700px;
@@ -1269,7 +1276,7 @@ button {
   padding: clamp(18px, 5cqi, 30px);
   border: var(--rule) solid var(--line);
   background: var(--panel);
-  box-shadow: 9px 9px 0 var(--c);
+  box-shadow: 9px 9px 0 var(--shadow, var(--c));
 }
 .tome-page > .hand {
   font-size: 2.6rem;
@@ -1286,8 +1293,15 @@ button {
   align-items: baseline;
   padding: 9px 0;
   border-top: 2px solid var(--line);
-  font-weight: 700;
   line-height: 1.35;
+}
+.tome-list b {
+  font-weight: 800;
+}
+.tome-list p {
+  margin-top: 2px;
+  color: var(--soft);
+  font-size: 0.94rem;
 }
 .tome-list li::before {
   content: counter(pick, decimal-leading-zero);
@@ -1639,12 +1653,8 @@ button {
 @media (max-width: 899px) {
   .hero-grid,
   .about,
-  .split,
-  .bookcase {
+  .split {
     grid-template-columns: minmax(0, 1fr);
-  }
-  .desk-empty {
-    min-height: 120px;
   }
   .hero {
     align-items: start;
@@ -1676,8 +1686,15 @@ button {
   .brand {
     display: none;
   }
-  .filler.wide {
+  .filler:not(.thin) {
     display: none;
+  }
+  .rack {
+    gap: 4px;
+    padding-inline: 6px;
+  }
+  .book {
+    width: 56px;
   }
   .sections {
     margin-left: -8px;

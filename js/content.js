@@ -227,8 +227,9 @@ const SITE = {
   ],
 
   /* ---------- Off the clock: a shelf of books, one per interest ----------
-     spine: the word on the spine (keep it short). color: "pink" | "teal" | "yellow".
+     spine: the word on the spine (keep it short). color: "pink" | "teal" | "yellow" | "bone".
      Opening a book shows heading, then text, then list. text, list and link are each optional.
+     A list line is either "Title" or { title: "Title", note: "a line about it" }.
      link.url can point at a project write-up, e.g. "#project/dead-in-the-water".
   */
   offClock: {
@@ -240,16 +241,44 @@ const SITE = {
         spine: "Manga",
         color: "pink",
         heading: "My favorite manga",
-        text: "",
-        // TODO: replace these three lines with your real favorites. Add or remove lines freely.
-        list: ["TODO: first favorite", "TODO: second favorite", "TODO: third favorite"],
+        text: "Next on the pile: Dandadan, Haikyu!! and Kagurabachi. The ones that already earned their spot:",
+        list: [
+          { title: "Dorohedoro", note: "My favorite of all time. A city full of corpses, and everyone is still worried about dinner." },
+          { title: "Bleach", note: "The Fast and Furious of manga. Go in knowing that and it rules: sick designs and cool fights." },
+          { title: "My Hero Academia", note: "I would have paid for one more chapter of everyone grown up." },
+          { title: "Jujutsu Kaisen" },
+          { title: "Demon Slayer" },
+        ],
       },
       {
         id: "art",
         spine: "Art",
         color: "teal",
         heading: "Teaching myself character art",
-        text: "I built my own art curriculum and I am working through it, teaching myself character art.",
+        text:
+          "I built my own art curriculum and I am working through it in a sketchbook, two sessions a " +
+          "week. One rule: behind is fine, skipping ahead is not.",
+        list: [
+          { title: "Fundamentals", note: "Lines, ellipses, boxes, forms and light, in ink. This is where I am now." },
+          { title: "The figure", note: "Gesture, proportion, hands, heads." },
+          { title: "Value and color", note: "Rendering, then digital." },
+          { title: "Character design", note: "Character sheets and a style of my own." },
+          { title: "Comics", note: "Paneling, and a short pilot to finish." },
+        ],
+      },
+      {
+        id: "audiobooks",
+        spine: "Audiobooks",
+        color: "bone",
+        heading: "Almost nothing in print",
+        text: "Most of my reading happens through headphones. The ones I rate highest:",
+        list: [
+          { title: "Cradle, by Will Wight", note: "All twelve volumes. One long ladder, and every rung holds." },
+          { title: "Jurassic Park and The Lost World", note: "Michael Crichton. The dinosaur thing started here." },
+          { title: "Project Hail Mary", note: "Andy Weir. Engineering as a plot." },
+          { title: "The Name of the Wind", note: "Patrick Rothfuss, and The Wise Man's Fear after it." },
+          { title: "The Meg novels", note: "Steve Alten. Something far bigger than you." },
+        ],
       },
       {
         id: "tabletop",
@@ -257,9 +286,10 @@ const SITE = {
         color: "yellow",
         heading: "Running the table",
         text:
-          "I run tabletop games for friends, including a sci-fi one-shot on a homebrew ruleset layered " +
-          "over D&D. Building characters by hand from two rulebooks was the slowest part of the night, " +
-          "so I wrote a character builder for it.",
+          "I play D&D and I run it too. Dead in the Water is my sci-fi one-shot: three players, about " +
+          "six hours, and a revenge plot against the first mate who mutinied and took the ship. It runs " +
+          "on a homebrew ruleset layered over D&D, and building characters by hand from two rulebooks " +
+          "was the slowest part of the night, so I wrote a character builder for it.",
         link: { label: "Open the character builder write-up", url: "#project/dead-in-the-water" },
       },
     ],

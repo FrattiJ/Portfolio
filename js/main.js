@@ -458,7 +458,21 @@
           { class: "tome-page" },
           h("h3", { class: "hand", id: titleId }, b.heading || b.spine),
           has(b.text) ? h("p", {}, b.text) : null,
-          (b.list || []).length ? h("ol", { class: "tome-list" }, b.list.map((t) => h("li", {}, t))) : null,
+          (b.list || []).length
+            ? h(
+                "ol",
+                { class: "tome-list" },
+                b.list.map((t) =>
+                  h(
+                    "li",
+                    {},
+                    typeof t === "string"
+                      ? h("div", {}, t)
+                      : h("div", {}, h("b", {}, t.title), has(t.note) ? h("p", {}, t.note) : null)
+                  )
+                )
+              )
+            : null,
           b.link && has(b.link.url)
             ? h("p", {}, h("a", { class: "tome-link", ...linkAttrs(b.link.url) }, b.link.label, newTabNote(b.link.url)))
             : null,
