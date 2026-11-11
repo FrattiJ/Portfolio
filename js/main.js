@@ -333,8 +333,10 @@
   }
 
   /* ---------- Reader: the project write-up ---------- */
+  let openId = null;
   function openProject(p) {
     const modal = $("#projectModal");
+    openId = p.id;
     const links = visibleLinks(p.links);
     $("#modalBody").replaceChildren(
       ...[
@@ -380,7 +382,9 @@
       if (e.target === modal) modal.close();
     });
     modal.addEventListener("close", () => {
-      if (location.hash.startsWith("#project/")) history.replaceState(null, "", "#projects");
+      // the close event arrives a beat late: only clear the link if it still points at the write-up
+      // that just closed, not at one the visitor has moved on to since
+      if (!modal.open && location.hash === `#project/${openId}`) history.replaceState(null, "", "#projects");
     });
     const syncToHash = () => {
       const p = projectInHash();
