@@ -24,11 +24,12 @@ const SITE = {
     { label: "GitHub", url: "https://github.com/FrattiJ" },
   ],
 
-  /* ---------- The numbers under the intro ---------- */
+  /* ---------- The numbers on the cover, printed as price stickers ----------
+     Add `was: "..."` to print the sticker as a markdown: the old figure struck out, the new one big. */
   highlights: [
     { value: "6 yrs", label: "Beverage alcohol distribution" },
     { value: "~150", label: "Accounts priced, across 12 supplier portfolios" },
-    { value: "6 hrs to 1 min", label: "Chain cost file, after automation" },
+    { value: "1 min", was: "6 hrs", label: "Chain cost file, after automation" },
     { value: "1,800", label: "SKUs validated per supplier price book" },
   ],
 
@@ -65,6 +66,7 @@ const SITE = {
      group: "work" | "personal" (the order and titles are set in projectGroups)
      The "process" list is the write-up shown when someone opens a project.
      status: "shipped" (shown as "In use") | "active" | "planned"
+     image: optional screenshot path, e.g. "assets/projects/hobbylog.png" (shown 16:9), with imageAlt to describe it
   */
   projectGroups: [
     { id: "work", title: "At work", note: "Internal tools. The code is not public, so these are write-ups." },
