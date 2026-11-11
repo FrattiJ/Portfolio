@@ -1225,8 +1225,22 @@ button {
 }
 .bookcase {
   display: grid;
-  grid-template-columns: minmax(0, 1fr);
+  grid-template-columns: auto minmax(0, 1fr);
   gap: clamp(36px, 5vw, 56px);
+  align-items: start;
+}
+/* Beside the open book, the shelf stays in view while you read, so the next book is one click away. */
+@media (min-width: 900px) {
+  .rack {
+    position: sticky;
+    top: calc(var(--bar) + 28px);
+  }
+  .filler.wide {
+    display: none;
+  }
+  .desk-empty {
+    min-height: 300px;
+  }
 }
 .rack {
   position: relative;
@@ -1800,8 +1814,17 @@ button {
 @media (max-width: 899px) {
   .hero-grid,
   .about,
-  .split {
+  .split,
+  .bookcase {
     grid-template-columns: minmax(0, 1fr);
+  }
+  .rack,
+  .tome,
+  .desk-empty {
+    margin-inline: auto;
+  }
+  .tome {
+    translate: -4px 0; /* the hard shadow hangs off the right, so nudge the page back to centre */
   }
   .hero {
     align-items: start;
