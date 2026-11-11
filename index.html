@@ -15,8 +15,8 @@
     <meta property="og:image:alt" content="Jacob Fratti in brush lettering over manga focus lines, with four price stickers: 6 yrs, about 150 accounts, 6 hrs marked down to 1 min, and 1,800 SKUs." />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="color-scheme" content="light dark" />
-    <meta name="theme-color" content="#e6e7dd" media="(prefers-color-scheme: light)" />
-    <meta name="theme-color" content="#0b1a1b" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#e8e8e3" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0e0e0e" media="(prefers-color-scheme: dark)" />
     <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
     <link rel="preload" href="assets/fonts/Dracutaz.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preload" href="assets/fonts/MPLUS1-latin-wght.woff2" as="font" type="font/woff2" crossorigin />
@@ -27,13 +27,7 @@
         var root = document.documentElement;
         try {
           var t = localStorage.getItem("theme");
-          if (t === "light" || t === "dark") {
-            root.dataset.theme = t;
-            var c = t === "dark" ? "#0b1a1b" : "#e6e7dd";
-            document.querySelectorAll('meta[name="theme-color"]').forEach(function (m) {
-              m.setAttribute("content", c);
-            });
-          }
+          if (t && /^[a-z0-9]+$/.test(t)) root.dataset.theme = t;
         } catch (e) {}
         root.classList.add("js");
       })();
@@ -65,12 +59,17 @@
         <a href="#skills">Skills</a>
         <a href="#offclock">Shelf</a>
       </nav>
-      <button class="theme" id="themeToggle" type="button" aria-label="Night mode" aria-pressed="false" title="Night mode">
+      <button class="theme" id="paletteToggle" type="button" aria-label="Colour palette" aria-expanded="false" aria-controls="paletteMenu" title="Colour palette">
         <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false">
-          <circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2.5" />
-          <path d="M12 3a9 9 0 0 1 0 18z" fill="currentColor" />
+          <rect x="3" y="3" width="8" height="8" fill="currentColor" />
+          <rect x="13" y="3" width="8" height="8" fill="none" stroke="currentColor" stroke-width="2.5" />
+          <rect x="3" y="13" width="8" height="8" fill="none" stroke="currentColor" stroke-width="2.5" />
+          <rect x="13" y="13" width="8" height="8" fill="currentColor" />
         </svg>
       </button>
+      <fieldset class="palette-menu" id="paletteMenu" hidden>
+        <legend class="vh">Colour palette</legend>
+      </fieldset>
     </header>
 
     <main id="main">

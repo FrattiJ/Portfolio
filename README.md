@@ -18,13 +18,13 @@ Plain HTML, CSS, and JavaScript. No framework, no build step, no dependencies, n
 | Change the books on the shelf   | `offClock.books` (one book per interest)               |
 | Change the links                | `links` (the first link is the main button)            |
 
-Each project has a shareable link, e.g. `https://frattij.github.io/#project/pricing-tool` opens that write-up directly. Paper and night mode follow the visitor's system setting, with a toggle in the top bar. The Projects section stays dark in both.
+Each project has a shareable link, e.g. `https://frattij.github.io/#project/pricing-tool` opens that write-up directly. The button at the right of the top bar opens a palette picker: Ink and Night (black and white with one red accent, following the visitor's system setting until they choose), plus six palettes that take their ground and lettering colour from Dorohedoro covers. The choice is remembered on that device. The Projects section is always the dark side of the current palette.
 
 Two things live outside `content.js` because link previews cannot run JavaScript: the `<title>` and the `og:` tags at the top of [`index.html`](index.html), and the preview card [`assets/share.jpg`](assets/share.jpg), which is a 1200 x 630 screenshot of the cover. Update them if the name, title or cover changes.
 
 ## Look and type
 
-Colors and fonts are tokens at the top of [`css/style.css`](css/style.css).
+Colors and fonts are tokens at the top of [`css/style.css`](css/style.css). Each palette is one short block there; to add one, copy a block, give it an id, and list it in `PALETTES` in [`js/main.js`](js/main.js).
 
 | Role                   | Font            | License                                              |
 | ---------------------- | --------------- | ---------------------------------------------------- |
