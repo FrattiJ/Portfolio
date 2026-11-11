@@ -15,8 +15,8 @@
     <meta property="og:image:alt" content="Jacob Fratti in brush lettering over manga focus lines, with four price stickers: 6 yrs, about 150 accounts, 6 hrs marked down to 1 min, and 1,800 SKUs." />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="color-scheme" content="light dark" />
-    <meta name="theme-color" content="#e6e7dd" media="(prefers-color-scheme: light)" />
-    <meta name="theme-color" content="#0b1a1b" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#e8e8e3" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0e0e0e" media="(prefers-color-scheme: dark)" />
     <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
     <link rel="preload" href="assets/fonts/Dracutaz.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preload" href="assets/fonts/MPLUS1-latin-wght.woff2" as="font" type="font/woff2" crossorigin />
@@ -29,7 +29,7 @@
           var t = localStorage.getItem("theme");
           if (t === "light" || t === "dark") {
             root.dataset.theme = t;
-            var c = t === "dark" ? "#0b1a1b" : "#e6e7dd";
+            var c = t === "dark" ? "#0e0e0e" : "#e8e8e3";
             document.querySelectorAll('meta[name="theme-color"]').forEach(function (m) {
               m.setAttribute("content", c);
             });

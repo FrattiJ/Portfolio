@@ -79,7 +79,7 @@
   };
 
   /* ---------- Theme ---------- */
-  const THEME_COLOR = { light: "#e6e7dd", dark: "#0b1a1b" };
+  const THEME_COLOR = { light: "#e8e8e3", dark: "#0e0e0e" };
   const systemDark = matchMedia("(prefers-color-scheme: dark)");
   const activeTheme = () => root.dataset.theme || (systemDark.matches ? "dark" : "light");
 
